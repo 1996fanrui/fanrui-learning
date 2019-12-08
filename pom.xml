@@ -12,6 +12,7 @@
 
     <modules>
         <module>module-juc</module>
+        <module>module-flink</module>
     </modules>
 
 
