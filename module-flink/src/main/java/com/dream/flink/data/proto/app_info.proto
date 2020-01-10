@@ -1,0 +1,15 @@
+option java_package = "com.dream.flink.data.proto";
+option java_outer_classname = "AppInfo";
+// protoc --java_out=./module-flink/src/main/java   ./module-flink/src/main/java/com/dream/flink/data/proto/app_info.proto
+
+
+// 鲤跃竞价成功日志
+message Log {
+
+    // appId
+    required string appId = 1;
+
+    // 日志发生的时间
+    required int64 eventTime = 2;
+
+}
