@@ -18,6 +18,7 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
 import org.apache.flink.util.Collector;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -81,11 +82,16 @@ public class WindowWaterMarkTrigger {
                         })
                 .keyBy(AppInfo.Log::getAppId)
                 .timeWindow(Time.milliseconds(10))
-                .aggregate(new StringConcatAggregate<>(), new WindowFunction<String, String, String, TimeWindow>() {
+                .apply(new WindowFunction<AppInfo.Log, String, String, TimeWindow>() {
                     @Override
-                    public void apply(String s, TimeWindow window, Iterable<String> input, Collector<String> out) throws Exception {
-                        String next = input.iterator().next();
-                        out.collect("key:" + s + "  window : [" + window.getStart() + ", " + window.getEnd() + ")  data:\n" + next);
+                    public void apply(String s, TimeWindow window, Iterable<AppInfo.Log> input, Collector<String> out) throws Exception {
+                        Iterator<AppInfo.Log> iterator = input.iterator();
+                        String str = "key:" + s + "  window : [" + window.getStart() + ", " + window.getEnd() + ")  data:\n---------\n";
+                        while (iterator.hasNext()){
+                            AppInfo.Log next = iterator.next();
+                            str += next + "---------\n";
+                        }
+                        out.collect(str);
                     }
                 })
                 .print();

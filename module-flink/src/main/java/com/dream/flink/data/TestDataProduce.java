@@ -31,7 +31,7 @@ public class TestDataProduce {
         KafkaProducer producer = new KafkaProducer<String, String>(props);
 
         // 随机生成 appId
-        int appId = random.nextInt(1);
+        int appId = random.nextInt(2);
         System.out.println("请输入时间戳：");
 
         long timeMillis = sc.nextLong();
