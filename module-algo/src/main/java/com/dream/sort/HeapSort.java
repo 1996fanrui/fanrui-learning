@@ -22,13 +22,13 @@ public class HeapSort implements ISort{
         buildHeap(arr);
 
         // 2、排序
-        // k 表示当前 堆的元素个数
-        int k = arr.length - 1;
-        while (k > 0) {
+        // heapSize 表示当前 堆的元素个数
+        int heapSize = arr.length - 1;
+        while (heapSize > 0) {
             // 将堆顶元素（最大）与最后一个元素交换位置
-            swap(arr, 0, k);
+            swap(arr, 0, heapSize);
             // 将剩下元素重新堆化，堆顶元素变成最大元素， 堆中元素个数-1
-            heapify(arr, --k, 0);
+            heapify(arr, --heapSize, 0);
         }
     }
 
