@@ -23,7 +23,7 @@ public class SortBaseTest {
     public void before(){
         int[] arrayIni = {10, 9, 8, 7, 6, 5, 4, 4, 1, -1, 2};
 		arrayIni = new int[]{ 6, 5, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2, 4, 4, 1, 2};
-		arrayIni = new int[]{ 6, 5, 4, 4, 1, 2};
+//		arrayIni = new int[]{ 6, 5, 4, 4, 1, 2};
 //		arrayIni = new int[]{2,3,4,5,6,7,8,9,0,7};
         array = new int[arrayIni.length];
         for(int i = 0; i < array.length; i++){
@@ -74,10 +74,15 @@ public class SortBaseTest {
         sort = new QuickSort();
     }
 
-    @Test
-    public void testQuick3WaySort(){
-        sort = new Quick3WaySort();
-    }
+	@Test
+	public void testQuick3WaySort(){
+		sort = new Quick3WaySort();
+	}
+
+	@Test
+	public void testHeapSort(){
+		sort = new HeapSort();
+	}
 
     @Test
     public void testCountingSort(){
