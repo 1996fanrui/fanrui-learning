@@ -13,6 +13,7 @@
     <modules>
         <module>module-java</module>
         <module>module-flink</module>
+        <module>module-algo</module>
     </modules>
 
     <properties>
