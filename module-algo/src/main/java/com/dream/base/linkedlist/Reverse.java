@@ -1,4 +1,4 @@
-package com.dream.linkedlist;
+package com.dream.base.linkedlist;
 
 /**
  * 单链表反转
