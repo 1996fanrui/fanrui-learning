@@ -1,5 +1,9 @@
 package com.dream.base.linkedlist;
 
+/**
+ * @author fanrui
+ * 两个单链表相交的话，找出相交的第一个节点
+ */
 public class FindFirstIntersectNode {
 
     public static class Node {
