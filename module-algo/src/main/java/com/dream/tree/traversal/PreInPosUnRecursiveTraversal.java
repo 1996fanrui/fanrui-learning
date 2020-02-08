@@ -19,16 +19,21 @@ public class PreInPosUnRecursiveTraversal {
 
 
     public static void preOrderUnRecur(Node head) {
-        System.out.print("pre-order: ");
+        System.out.print("先序遍历: ");
         if (head != null) {
             Stack<Node> stack = new Stack<Node>();
+            //  根节点 压栈
             stack.add(head);
+            // 只要栈不空，则一直循环
             while (!stack.isEmpty()) {
+                // 出栈，并打印遍历
                 head = stack.pop();
                 System.out.print(head.value + " ");
+                // 右孩子不为空，则压栈
                 if (head.right != null) {
                     stack.push(head.right);
                 }
+                // 左孩子不为空，则压栈
                 if (head.left != null) {
                     stack.push(head.left);
                 }
@@ -44,7 +49,7 @@ public class PreInPosUnRecursiveTraversal {
      * @param head
      */
     public static void inOrderUnRecur(Node head) {
-        System.out.print("in-order: ");
+        System.out.print("中序遍历: ");
         if (head != null) {
             Stack<Node> stack = new Stack<Node>();
             Node cur = head;
@@ -75,13 +80,16 @@ public class PreInPosUnRecursiveTraversal {
      * @param head
      */
     public static void posOrderUnRecur1(Node head) {
-        System.out.print("pos-order: ");
+        System.out.print("后序遍历: ");
         if (head != null) {
+            // s1 就是先序遍历需要用到的栈
             Stack<Node> s1 = new Stack<Node>();
+            // s2 是用于将先序遍历的数据进行逆序
             Stack<Node> s2 = new Stack<Node>();
             s1.push(head);
             while (!s1.isEmpty()) {
                 head = s1.pop();
+                // 跟前序遍历类似，只不过这里是先将数据入栈，暂存到 s2 中
                 s2.push(head);
                 if (head.left != null) {
                     s1.push(head.left);
@@ -90,6 +98,7 @@ public class PreInPosUnRecursiveTraversal {
                     s1.push(head.right);
                 }
             }
+            // s2 出栈，遍历
             while (!s2.isEmpty()) {
                 System.out.print(s2.pop().value + " ");
             }

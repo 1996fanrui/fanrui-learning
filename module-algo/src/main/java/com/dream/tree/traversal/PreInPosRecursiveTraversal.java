@@ -19,8 +19,11 @@ public class PreInPosRecursiveTraversal {
         if (head == null) {
             return;
         }
+        // 遍历自己
         System.out.print(head.value + " ");
+        // 遍历左子树
         preOrderRecur(head.left);
+        // 遍历右子树
         preOrderRecur(head.right);
     }
 
