@@ -7,7 +7,12 @@ import java.io.*;
  * @author fanrui
  * 可见山峰对数量
  * 牛客链接：https://www.nowcoder.com/practice/16d1047e9fa54cea8b5170b156d89e38?tpId=101&tqId=33173&tPage=1&rp=1&ru=/ta/programmer-code-interview-guide&qru=/ta/programmer-code-interview-guide/question-ranking
- *
+ * 相同元素的处理方案：
+ *      该实现方案，当元素相等时都放到 stack 中，pop 时，计算 到底有多少个，
+ *      左神的实现：将所有的元素封装到 Pair 对象中，对象包含元素的 value 值和 次数，然后放到 stack 中
+ * 找最大元素，然后按照环遍历的方案：
+ *      该实现方案，从 maxIndex 到 length + maxIndex。
+ *      左神的实现，从 maxIndex 到 maxIndex，搞了一个方法去专门对 index值 +1，会循环
  */
 public class VisiblePeakPair{
 
@@ -61,9 +66,7 @@ public class VisiblePeakPair{
                     stack.pop();
                     curCount++;
                 }
-                if (curCount >= 2) {
-                    peakPair += combine(2,curCount);
-                }
+                peakPair += getInternalSum(curCount);
                 peakPair += curCount * 2;
             }
             stack.push(i%arr.length);
@@ -78,9 +81,7 @@ public class VisiblePeakPair{
                 stack.pop();
                 curCount++;
             }
-            if (curCount >= 2) {
-                peakPair += combine(2,curCount);
-            }
+            peakPair += getInternalSum(curCount);
             // stack 中仅剩最大值 且 maxValueCount == 1
             if(maxValueCount == 1 && arr[maxIndex] == arr[stack.peek()]){
                 peakPair += curCount;
@@ -90,13 +91,19 @@ public class VisiblePeakPair{
         }
 
         // 最大值之间还有一个组合关系
-        if (maxValueCount >= 2) {
-            peakPair += combine(2,maxValueCount);
-        }
+        peakPair += getInternalSum(maxValueCount);
 
         return peakPair;
     }
 
+
+    /**
+     * 求 C 2 k，当前题目只求 C 2 k，所以没必要使用下面的 combine 方法
+     *
+     */
+    public static int getInternalSum(int k){
+        return k == 1 ? 0 : k * (k-1)/2;
+    }
 
     /**
      * 从 n 个数里选出 m 个数，有多少种组合关系
