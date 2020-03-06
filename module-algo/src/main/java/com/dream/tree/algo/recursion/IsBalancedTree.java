@@ -1,4 +1,4 @@
-package com.dream.tree.algo;
+package com.dream.tree.algo.recursion;
 
 import scala.Tuple2;
 
