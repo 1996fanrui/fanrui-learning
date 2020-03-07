@@ -128,16 +128,16 @@ class LRUCache {
          * 链表中移除最老的数据，并返回删除的 node
          */
         public Node removeOldestNode(){
+            Node res = head;
             // 链表中没有元素，返回 null
             if(head == null){
                 return null;
             } else if(head == tail) {
                 // 仅剩一个元素了
                 head = tail = null;
-                return head;
+                return res;
             }
             // 剩余多个元素的情况
-            Node res = head;
             head = head.next;
             head.pre = null;
             res.next = null;
