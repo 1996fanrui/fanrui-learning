@@ -1,4 +1,4 @@
-package com.dream.tree.algo;
+package com.dream.other.longest.sum.sub.array;
 
 import java.util.*;
 import java.io.*;
@@ -6,6 +6,7 @@ import java.io.*;
 /**
  * @author fanrui
  * 未排序数组中累加和为给定值的最长子数组长度
+ * 数据可正、可负、可 0
  * 牛客链接：https://www.nowcoder.com/practice/36fb0fd3c656480c92b569258a1223d5?tpId=101&tqId=33077&tPage=1&rp=1&ru=/ta/programmer-code-interview-guide&qru=/ta/programmer-code-interview-guide/question-ranking
  */
 public class LongestSumSubArrayLength {
