@@ -1,14 +1,15 @@
-package com.dream.dp;
+package com.dream.dp.stock;
 
 import java.util.HashMap;
 
 /**
  * @author fanrui
  * @time 2020-03-08 12:12:35
- * 买卖股票的最佳时机
+ * 买卖股票的最佳时机：
+ *      只能持有一股，且不限制买卖次数
  * LeetCode 122：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
  */
-public class BuySellStockMaxProfit {
+public class BuySellStockUnlimited {
 
     /**
      * 方法一：
