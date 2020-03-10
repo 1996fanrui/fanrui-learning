@@ -1,4 +1,4 @@
-package com.dream.dp.stock;
+package com.dream.dp;
 
 /**
  * @author fanrui
