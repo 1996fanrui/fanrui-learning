@@ -13,7 +13,7 @@ public class TwoSum {
 
         int[] aa = new int[2];
 
-        HashMap<Integer,Integer> map = new HashMap(nums.length);
+        HashMap<Integer,Integer> map = new HashMap<>(nums.length);
         for(int i = 0; i< nums.length;i++){
             if(map.containsKey(target - nums[i])){
                 aa[0] = map.get(target-nums[i]);
