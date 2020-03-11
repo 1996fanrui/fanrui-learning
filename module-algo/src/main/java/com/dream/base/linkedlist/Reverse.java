@@ -5,6 +5,7 @@ package com.dream.base.linkedlist;
  * @author fanrui
  * @time 2019-03-21 17:03:47
  * @desc 创建两个链表，一个原链表，一个新链表，遍历原链表，将原链表的节点一个个添加到新链表的头部即可
+ * leetcode 206: https://leetcode-cn.com/problems/reverse-linked-list/
  */
 public class Reverse {
 
