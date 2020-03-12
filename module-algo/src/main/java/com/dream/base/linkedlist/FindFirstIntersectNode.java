@@ -37,6 +37,15 @@ public class FindFirstIntersectNode {
         return null;
     }
 
+    /**
+     * 找出循环链表的入环节点：
+     * 快指针每次走两步，慢指针每次走一步
+     * 如果快指针走到了链表尾部，发现了 null，则链表无环
+     * 如果快慢指针相遇了，也就是相等了，则链表有环
+     * 两个指针相遇后，快指针指向 head，然后两个指针每次走一步，再次相遇时的节点就是入环的第一个节点
+     * @param head
+     * @return
+     */
     public static Node getLoopNode(Node head) {
         if (head == null || head.next == null || head.next.next == null) {
             return null;
