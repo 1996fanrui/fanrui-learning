@@ -15,12 +15,9 @@ public class SwapPairs {
         cur.next = head;
         head = cur;
 
-        while (cur.next != null) {
+        while (cur.next != null && cur.next.next != null) {
             ListNode firstNode = cur.next;
             ListNode secondNode = firstNode.next;
-            if(secondNode == null){
-                break;
-            }
             cur.next = secondNode;
             firstNode.next = secondNode.next;
             secondNode.next = firstNode;
