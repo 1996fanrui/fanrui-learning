@@ -57,7 +57,7 @@ public class LinkedListBaseTest {
 
 //        tail.next = node;
 
-        System.out.println(CheckCircle.checkCircle(node));
+//        System.out.println(new CheckCircle().hasCycle(node));
     }
 
     // 求链表的中间结点
