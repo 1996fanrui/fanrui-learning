@@ -38,6 +38,7 @@ public class QuickSort implements ISort {
 	 * @param left
 	 * @param right
 	 * @return 基准值数组索引
+	 * patition 更巧妙写法可以参考：KthLargestOfStaticData
 	 */
 	private int partition(int[] array, int left, int right){
 
@@ -53,7 +54,7 @@ public class QuickSort implements ISort {
                 j--;
             }
 
-            // 从左边开始遍历，找到比 pivot小的数
+            // 从左边开始遍历，找到比 pivot大的数
             while(array[i] <= pivot && i < j) {
                 i++;
             }
