@@ -29,6 +29,26 @@ public class Fibonacci {
         return f[n];
     }
 
+    /**
+     * 优化递推的空间复杂度
+     * @param n
+     * @return
+     */
+    private static long Fibonacci2(int n) {
+        if(n <= 1){
+            return n;
+        }
+        int pre2 = 0;
+        int pre = 1;
+        int result =1;
+        for(int i = 2; i <= n; i++){
+            result = (pre + pre2)%1000000007;
+            pre2 = pre;
+            pre = result;
+        }
+        return result;
+    }
+
 
 
     /**

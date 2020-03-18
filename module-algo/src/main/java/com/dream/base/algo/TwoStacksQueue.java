@@ -5,6 +5,8 @@ import java.util.Stack;
 /**
  * @author fanrui
  * 如何仅用栈结构实现队列结构?
+ * LeetCode 232： https://leetcode-cn.com/problems/implement-queue-using-stacks/
+ * 剑指 Offer 9：https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/
  */
 public class TwoStacksQueue {
 
