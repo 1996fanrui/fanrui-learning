@@ -1,53 +1,37 @@
 package com.dream.tree.heap;
 
 
-import java.util.PriorityQueue;
+import java.util.Arrays;
 
 /**
  * @author fanrui
- * 215. 数组中的第K个最大元素(静态数据)
- * LeetCode 215： https://leetcode-cn.com/problems/kth-largest-element-in-an-array/
+ * @time  2020-03-20 01:03:57
+ * 最小的k个数
+ * 剑指 Offer 40：https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/
  */
-public class KthLargestOfStaticData {
+public class KthSmallestArrayOfStaticData {
 
-
-    // 思路一：小顶堆实现，时间复杂度 O(n * lg n)
-    public int findKthLargest(int[] nums, int k) {
-
-        if (nums == null || nums.length == 0 || k == 0) {
-            return -1;
-        }
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>(k);
-
-        for (int i = 0; i < nums.length; i++) {
-            if (minHeap.size() < k) {
-                minHeap.offer(nums[i]);
-            } else if (minHeap.peek() < nums[i]) {
-                minHeap.poll();
-                minHeap.offer(nums[i]);
-            }
-        }
-        return minHeap.peek();
-    }
-
-    // 思路二：利用快排思想，时间复杂度 O（n）
+    // 思路：利用快排思想，时间复杂度 O（n）
     private int[] nums;
     private int k;
 
-    public int findKthLargest2(int[] nums, int k) {
+    public int[] getLeastNumbers(int[] nums, int k) {
+        if(k >= nums.length){
+            return nums;
+        }
+
         this.nums = nums;
-        this.k = nums.length - k;
-        return select(0, nums.length - 1);
+        this.k = k;
+        select(0, nums.length - 1);
+        return Arrays.copyOf(nums, k);
     }
 
-    private int select(int left, int right) {
+    private void select(int left, int right) {
         int[] pivot_index = partition(left, right, medium(left, right));
-        if (k >= pivot_index[0] && k <= pivot_index[1]) {
-            return nums[k];
-        } else if (k < pivot_index[0]) {
-            return select(left, pivot_index[0] - 1);
-        } else {
-            return select(pivot_index[0] + 1, right);
+        if (k < pivot_index[0]) {
+            select(left, pivot_index[0] - 1);
+        } else if(k > pivot_index[1]){
+            select(pivot_index[0] + 1, right);
         }
     }
 
