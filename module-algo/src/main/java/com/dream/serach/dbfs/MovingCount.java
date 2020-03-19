@@ -14,37 +14,37 @@ public class MovingCount {
     }
 
     private int dfs(boolean[][] visited, int m, int n,
-                    int curRow, int curCol, int k){
+                    int curRow, int curCol, int k) {
         // 越界数据处理
-        if( curRow < 0 || curRow >= m
-                || curCol < 0 || curCol >= n){
+        if (curRow < 0 || curRow >= m
+                || curCol < 0 || curCol >= n) {
             return 0;
         }
         // 当前节点已经访问过了，直接返回 0
-        if(visited[curRow][curCol]){
+        if (visited[curRow][curCol]) {
             return 0;
         }
         int res = 0;
         visited[curRow][curCol] = true;
         // 当前节点可以进入
-        if(check(curRow, curCol, k)){
+        if (check(curRow, curCol, k)) {
             res = 1;
-            res += dfs(visited, m, n, curRow+1, curCol, k);
-            res += dfs(visited, m, n, curRow-1, curCol, k);
-            res += dfs(visited, m, n, curRow, curCol-1, k);
-            res += dfs(visited, m, n, curRow, curCol+1, k);
+            res += dfs(visited, m, n, curRow + 1, curCol, k);
+            res += dfs(visited, m, n, curRow - 1, curCol, k);
+            res += dfs(visited, m, n, curRow, curCol - 1, k);
+            res += dfs(visited, m, n, curRow, curCol + 1, k);
         }
         return res;
     }
 
     // 检查当前节点是否可以进入
-    private boolean check(int curRow, int curCol, int k){
+    private boolean check(int curRow, int curCol, int k) {
         int pointSum = 0;
-        while(curRow !=0){
+        while (curRow != 0) {
             pointSum += curRow % 10;
             curRow /= 10;
         }
-        while(curCol !=0){
+        while (curCol != 0) {
             pointSum += curCol % 10;
             curCol /= 10;
         }
