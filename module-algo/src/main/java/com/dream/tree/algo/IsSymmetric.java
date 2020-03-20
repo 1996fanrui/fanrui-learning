@@ -1,4 +1,4 @@
-package com.dream.tree.algo.recursion;
+package com.dream.tree.algo;
 
 import java.util.LinkedList;
 import java.util.Queue;
