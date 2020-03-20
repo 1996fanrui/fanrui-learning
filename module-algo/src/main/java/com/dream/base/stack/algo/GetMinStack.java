@@ -23,12 +23,11 @@ public class GetMinStack {
 		}
 
 		public void push(int newNum) {
-			if (this.stackMin.isEmpty()) {
-				this.stackMin.push(newNum);
-			} else if (newNum <= this.getmin()) {
+			this.stackData.push(newNum);
+			if (this.stackMin.isEmpty()
+					|| newNum <= stackMin.peek()) {
 				this.stackMin.push(newNum);
 			}
-			this.stackData.push(newNum);
 		}
 
 		public int pop() {
@@ -41,6 +40,14 @@ public class GetMinStack {
 			}
 			return value;
 		}
+
+
+        public int top() {
+            if(stackData.isEmpty()){
+                return -1;
+            }
+            return stackData.peek();
+        }
 
 		public int getmin() {
 			if (this.stackMin.isEmpty()) {
