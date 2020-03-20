@@ -9,7 +9,8 @@ package com.dream.base.linkedlist;
  */
 public class MergeTwoSortedList {
 
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    // 思路一：搞个哨兵，遍历两个链表，头部的较小值拿出来即可。最后将有数据的链表串在结果链表尾部即可。
+    public ListNode mergeTwoLists1(ListNode l1, ListNode l2) {
         // 搞个哨兵，便于编码
         ListNode resList = new ListNode(0);
         ListNode cur = resList;
@@ -33,6 +34,26 @@ public class MergeTwoSortedList {
         }
         return resList.next;
     }
+
+    // 思路二：递归拼接，递归的每一层只拼接一个 node。
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        }
+        ListNode resList;
+        // 将两个链表较小的拿出来
+        if (l1.val < l2.val) {
+            resList = l1;
+            resList.next = mergeTwoLists(l1.next, l2);
+        } else {
+            resList = l2;
+            resList.next = mergeTwoLists(l1, l2.next);
+        }
+        return resList;
+    }
+
 
     public class ListNode {
         int val;
