@@ -93,24 +93,26 @@ public class TraversalByLevelSaveLevel {
 
         return res;
     }
-}
 
-class Entry {
-    TreeNode node;
-    int level;
 
-    public Entry(TreeNode node, int level) {
-        this.node = node;
-        this.level = level;
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
     }
-}
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
 
-    TreeNode(int x) {
-        val = x;
+    public class Entry {
+        TreeNode node;
+        int level;
+
+        public Entry(TreeNode node, int level) {
+            this.node = node;
+            this.level = level;
+        }
     }
 }
