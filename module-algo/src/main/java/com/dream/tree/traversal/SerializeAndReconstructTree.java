@@ -3,6 +3,12 @@ package com.dream.tree.traversal;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * @author fanrui
+ * 序列化和反序列化，即：将二叉树通过某种结构保存起来，可以保存到磁盘中，又可以通过该结构重建出树
+ * 剑指 Offer 37：https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/
+ * LeetCode 297：https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
+ */
 public class SerializeAndReconstructTree {
 
 
@@ -16,7 +22,7 @@ public class SerializeAndReconstructTree {
         }
     }
 
-    // 先序遍历进行序列化
+    // 先序遍历进行序列化.
     public static String serialByPre(Node head) {
         // 保存 null 值
         if (head == null) {
@@ -28,10 +34,30 @@ public class SerializeAndReconstructTree {
         return res;
     }
 
+    // 先序遍历，优化为 StringBuilder 提高效率
+    // Encodes a tree to a single string.
+    public String serialize(Node root) {
+        if(root == null){
+            return "#_";
+        }
+        StringBuilder sb = new StringBuilder();
+        recSer(root, sb);
+        return sb.toString();
+    }
+
+    private void recSer(Node root, StringBuilder sb){
+        if(root == null){
+            sb.append("#_");
+            return;
+        }
+        sb.append(root.value).append('_');
+        recSer(root.left, sb);
+        recSer(root.right, sb);
+    }
     /**
      * 先序遍历进行反序列化，
      * 第一步：先按照分隔符切分字符串，将切分后的元素添加到队列中
-      */
+     */
     public static Node reconByPreString(String preStr) {
         String[] values = preStr.split("_");
         Queue<String> queue = new LinkedList<String>();
@@ -43,7 +69,7 @@ public class SerializeAndReconstructTree {
 
     /**
      * 递归先序遍历进行反序列化
-      */
+     */
     public static Node reconPreOrder(Queue<String> queue) {
         String value = queue.poll();
         if (value.equals("#")) {
@@ -57,6 +83,7 @@ public class SerializeAndReconstructTree {
 
     /**
      * 按层次序列化
+     *
      * @param head
      * @return
      */
@@ -87,6 +114,7 @@ public class SerializeAndReconstructTree {
 
     /**
      * 按层次反序列化
+     *
      * @param levelStr
      * @return
      */

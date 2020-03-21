@@ -13,7 +13,7 @@ public class BST2LinkedList {
     private Node cur;
 
     public Node treeToDoublyList(Node root) {
-        if(root == null){
+        if (root == null) {
             return null;
         }
 
