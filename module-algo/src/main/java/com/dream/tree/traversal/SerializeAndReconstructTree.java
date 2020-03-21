@@ -1,5 +1,6 @@
 package com.dream.tree.traversal;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -31,6 +32,7 @@ public class SerializeAndReconstructTree {
         String res = head.value + "_";
         res += serialByPre(head.left);
         res += serialByPre(head.right);
+        new HashSet<>().toArray(new String[0]);
         return res;
     }
 
