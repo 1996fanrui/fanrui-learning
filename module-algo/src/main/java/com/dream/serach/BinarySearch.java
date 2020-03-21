@@ -10,6 +10,14 @@ package com.dream.serach;
  * 查找第一个大于等于给定值的元素
  * 查找最后一个小于等于给定值的元素
  *
+ * 相关题目：
+ * 不含重复元素，普通二分
+ *      LeetCode 704：https://leetcode-cn.com/problems/binary-search/
+ * 含重复元素，找等于给定值的第一个和最后一个元素的 index：
+ *      LeetCode 34：https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+ * 含重复元素，找出给定值在数组中出现的次数
+ *      剑指 Offer 53-I：https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
+ *
  */
 public class BinarySearch {
 
