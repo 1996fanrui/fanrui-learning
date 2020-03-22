@@ -20,35 +20,25 @@ public class TwoSingleNumber {
             allXor ^= nums[i];
         }
 
-        int lastIndexOfBit1 = findLastIndexOfBit1(allXor);
-
-        // 1 左移 lastIndexOfBit1 就可以就可以用来分类了
-        int diff = 1 << lastIndexOfBit1;
+        // 只保留 allXor 最低位的 1 到 diff
+        int diff = allXor & (-allXor);
 
         int num1 = 0;
-        int num2 = 0;
         for (int i = 0; i < nums.length; i++) {
             // 第 lastIndexOfBit1 位为 1 的数据
             if((diff & nums[i]) == 0){
                 num1 ^= nums[i];
-            } else {
-                // 第 lastIndexOfBit1 位为 0 的数据
-                num2 ^= nums[i];
             }
+//           num2 有更高效的求法，所以这里注释
+//            else {
+//                num2 ^= nums[i];
+//            }
         }
 
+        // 异或满足交换律，allXor = num2 ^ num1：所以， num2 = allXor ^ num1
+        int num2 = allXor ^ num1;
         return new int[]{num1,num2};
     }
 
-
-    // 找出二进制位 中最后一个 1 的位置
-    private int findLastIndexOfBit1(int num) {
-        int index = 0;
-        while ((num & 1) != 1) {
-            num >>= 1;
-            index++;
-        }
-        return index;
-    }
 
 }
