@@ -3,7 +3,7 @@ package com.dream.bit;
 /**
  * @author fanrui
  * @time 2020-03-18 20:58:49
- * 136. 只出现一次的数字
+ * 136. 找出只出现一次的数字（其他数字出现了两次）
  * LeetCode 136： https://leetcode-cn.com/problems/single-number/
  */
 public class SingleNumber {
