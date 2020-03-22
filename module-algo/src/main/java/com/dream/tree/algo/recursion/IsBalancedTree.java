@@ -1,47 +1,60 @@
 package com.dream.tree.algo.recursion;
 
-import scala.Tuple2;
-
 /**
  * @author fanrui
+ * @time  2020-03-22 10:57:47
  * 判断一棵树，是否是平衡树
+ * LeetCode 110： https://leetcode-cn.com/problems/balanced-binary-tree/submissions/
+ * 剑指 Offer 55-II： https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/submissions/
  */
 public class IsBalancedTree {
 
+    public boolean isBalanced(TreeNode root) {
+        return recCheckBalance(root).isBalanced;
+    }
 
-    public static class Node {
-        public int value;
-        public Node left;
-        public Node right;
+    private ReturnType recCheckBalance(TreeNode root) {
+        if (root == null) {
+            return ReturnType.NULL_RETURN;
+        }
 
-        public Node(int data) {
-            this.value = data;
+        ReturnType leftRes = recCheckBalance(root.left);
+        // 左子树不平衡，直接返回
+        if (!leftRes.isBalanced) {
+            return leftRes;
+        }
+
+        ReturnType rightRes = recCheckBalance(root.right);
+        // 右子树不平衡，直接返回
+        if (!rightRes.isBalanced) {
+            return rightRes;
+        }
+
+        int curHeight = Math.max(leftRes.height, rightRes.height) + 1;
+        return new ReturnType(curHeight,
+                Math.abs(leftRes.height - rightRes.height) <= 1);
+    }
+
+    public static class ReturnType {
+        public static ReturnType NULL_RETURN = new ReturnType(0, true);
+        int height;
+        boolean isBalanced;
+
+        public ReturnType(int height, boolean isBalanced) {
+            this.height = height;
+            this.isBalanced = isBalanced;
         }
     }
 
-    // 可以优化这个返回值，不需要 boolean 类型，当 高度返回 < 0 时就认为是不平衡的
-    public static Tuple2<Boolean, Integer> isBalancedTree(Node node){
-        if(node == null){
-            return Tuple2.apply(true, 0);
-        }
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
 
-        Tuple2<Boolean, Integer> leftResult = isBalancedTree(node.left);
-        // 一旦返回 false，已经不关注树的高度了
-        if(!leftResult._1 ){
-            return Tuple2.apply(false,0);
-        }
-
-        Tuple2<Boolean, Integer> rightResult = isBalancedTree(node.right);
-        // 一旦返回 false，已经不关注树的高度了
-        if(!rightResult._1){
-            return Tuple2.apply(false,0);
-        }
-
-        // 两颗树的高度差值 > 1 返回 false
-        if(Math.abs(leftResult._2 - rightResult._2) > 1){
-            return Tuple2.apply(false,0);
-        } else {
-            return Tuple2.apply(true, Math.max(leftResult._2, rightResult._2) + 1);
+        TreeNode(int x) {
+            val = x;
         }
     }
+
+
 }
