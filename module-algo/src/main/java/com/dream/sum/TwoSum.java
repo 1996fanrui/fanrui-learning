@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * @author fanrui
- * 两数之和
+ * 两数之和（数组元素乱序）
  * LeetCode 1：https://leetcode-cn.com/problems/two-sum/
  */
 public class TwoSum {
