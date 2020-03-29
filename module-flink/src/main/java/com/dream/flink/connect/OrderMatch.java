@@ -127,12 +127,14 @@ public class OrderMatch {
                             throws Exception {
                         // 获取当前 小订单的状态值
                         Order smallOrder = smallState.value();
-                        // 如果小订单先来了，直接将大小订单拼接发送到下游
+                        // smallOrder 不为空表示小订单先来了，直接将大小订单拼接发送到下游
                         if (smallOrder != null) {
                             out.collect(Tuple2.of(smallOrder, bigOrder));
+                            // 清空小订单对应的 State 信息
                             smallState.clear();
                             // 这里可以将 Timer 清除。因为两个流都到了，没必要再触发 onTimer 了
                             ctx.timerService().deleteEventTimeTimer(timerState.value());
+                            timerState.clear();
                         } else {
                             // 小订单还没来，将大订单放到状态中，并注册 1 分钟之后触发的 timerState
                             bigState.update(bigOrder);
@@ -153,6 +155,7 @@ public class OrderMatch {
                             out.collect(Tuple2.of(smallOrder, bigOrder));
                             ctx.timerService().deleteEventTimeTimer(timerState.value());
                             bigState.clear();
+                            timerState.clear();
                         } else {
                             smallState.update(smallOrder);
                             long time = smallOrder.getTime() + 60000;
@@ -174,13 +177,16 @@ public class OrderMatch {
                         if (smallState.value() != null) {
                             ctx.output(smallOrderTag, smallState.value());
                         }
+                        // 清空状态信息
                         bigState.clear();
                         smallState.clear();
+                        timerState.clear();
                     }
 
                     @Override
                     public void open(Configuration parameters) throws Exception {
                         super.open(parameters);
+                        // 初始化状态信息
                         bigState = getRuntimeContext().getState(
                                 new ValueStateDescriptor<>("bigState", Order.class));
                         smallState = getRuntimeContext().getState(
