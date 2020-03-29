@@ -1,4 +1,4 @@
-package com.dream.flink.connect.model;
+package com.dream.flink.data;
 
 import lombok.Data;
 

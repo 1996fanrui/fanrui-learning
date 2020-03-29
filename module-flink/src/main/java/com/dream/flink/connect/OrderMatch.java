@@ -1,7 +1,7 @@
 package com.dream.flink.connect;
 
 import com.alibaba.fastjson.JSON;
-import com.dream.flink.connect.model.Order;
+import com.dream.flink.data.Order;
 import com.dream.flink.util.CheckpointUtil;
 import com.dream.flink.util.KafkaConfigUtil;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
