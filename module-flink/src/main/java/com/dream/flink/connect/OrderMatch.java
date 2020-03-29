@@ -70,7 +70,7 @@ public class OrderMatch {
         // 提取 EventTime，分配 WaterMark。按照 订单id 进行 keyBy
         KeyedStream<Order, String> bigOrderStream = env.addSource(consumerBigOrder)
                 // 有状态算子一定要配置 uid
-                .uid(KAFKA_TOPIC)
+                .uid("big_order_topic_name")
                 // 过滤掉 null 数据
                 .filter(Objects::nonNull)
                 // 将 json 解析为 Order 类
@@ -95,7 +95,7 @@ public class OrderMatch {
                         .setStartFromGroupOffsets();
 
         KeyedStream<Order, String> smallOrderStream = env.addSource(consumerSmallOrder)
-                .uid(KAFKA_TOPIC)
+                .uid("small_order_topic_name")
                 .filter(Objects::nonNull)
                 .map(str -> JSON.parseObject(str, Order.class))
                 .assignTimestampsAndWatermarks(
