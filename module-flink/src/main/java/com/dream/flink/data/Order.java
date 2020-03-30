@@ -22,7 +22,7 @@ public class Order {
     int goodsId;
 
     /** 价格 */
-    int price;
+    long price;
 
     /** 城市 */
     int cityId;
