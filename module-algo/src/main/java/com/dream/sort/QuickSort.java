@@ -49,6 +49,7 @@ public class QuickSort implements ISort {
 
         //顺序很重要，要先从右边开始找
         while(i != j) {
+        	// todo 一定要注册，先从右边开始，先移动 j，最后的 i 才是我们要找的 pivot
             // 从右边开始遍历，找到比 pivot小的数
             while(array[j] >= pivot && i < j){
                 j--;
