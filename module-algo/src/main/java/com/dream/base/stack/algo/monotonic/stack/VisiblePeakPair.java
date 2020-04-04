@@ -47,6 +47,7 @@ public class VisiblePeakPair{
         for (int i = 1; i < arr.length; i++) {
             if(arr[i] > arr[maxIndex]){
                 maxIndex = i;
+                maxValueCount = 1;
             } else if(arr[i] == arr[maxIndex]){
                 maxValueCount++;
             }
