@@ -150,4 +150,31 @@ public class BinarySearch {
     }
 
 
+
+    // LeetCode 35. 搜索插入位置
+    public int searchInsert(int[] nums, int target) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int L = 0;
+        int R = nums.length - 1;
+        // 找比 target 小的数里最大的数
+        while(L <= R){
+            int mid = L + ((R-L)>>1);
+            // 大于等于 target，往左找
+            if(nums[mid] >= target){
+                R = mid - 1;
+            } else {
+                // 小于 target，往右找
+                L = mid + 1;
+                // mid 已经是最右位置，或者 mid 下一个元素大于等于 target，找到了结果
+                if(mid == nums.length - 1 || nums[mid+1] >= target){
+                    return mid +1;
+                }
+            }
+        }
+        return R < 0 ? 0 : R;
+    }
+
+
 }
