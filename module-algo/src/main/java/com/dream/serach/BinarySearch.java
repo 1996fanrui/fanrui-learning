@@ -15,6 +15,8 @@ package com.dream.serach;
  *      LeetCode 704：https://leetcode-cn.com/problems/binary-search/
  * 含重复元素，找等于给定值的第一个和最后一个元素的 index：
  *      LeetCode 34：https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+ * 搜索插入位置（查找最后一个小于给定值的元素的变种题目）
+ *      LeetCode 35：https://leetcode-cn.com/problems/search-insert-position/
  * 含重复元素，找出给定值在数组中出现的次数
  *      剑指 Offer 53-I：https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
  *
@@ -152,28 +154,32 @@ public class BinarySearch {
 
 
     // LeetCode 35. 搜索插入位置
+    // 查找最后一个小于给定值的元素（的变种题目）
     public int searchInsert(int[] nums, int target) {
         if(nums == null || nums.length == 0){
             return 0;
         }
         int L = 0;
         int R = nums.length - 1;
-        // 找比 target 小的数里最大的数
         while(L <= R){
             int mid = L + ((R-L)>>1);
-            // 大于等于 target，往左找
-            if(nums[mid] >= target){
-                R = mid - 1;
-            } else {
+            if(nums[mid] < target){
+                // 判断是否是要找的结果: mid 已经是最后一个元素了，或者 mid 下一个元素 大于等于 target
+                if(mid == nums.length - 1 || nums[mid+1] >= target){
+                    return mid + 1;
+                }
                 // 小于 target，往右找
                 L = mid + 1;
-                // mid 已经是最右位置，或者 mid 下一个元素大于等于 target，找到了结果
-                if(mid == nums.length - 1 || nums[mid+1] >= target){
-                    return mid +1;
+            } else {
+                // 大于等于 target，往左找
+                R = mid - 1;
+                // 判断是否已经找到了最左边
+                if(mid == 0){
+                    return 0;
                 }
             }
         }
-        return R < 0 ? 0 : R;
+        return -1;
     }
 
 
