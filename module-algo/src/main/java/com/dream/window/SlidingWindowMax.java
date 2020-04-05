@@ -39,7 +39,7 @@ public class SlidingWindowMax {
 
 
     private static void addDataToQueue(ArrayDeque<Integer> queue, int data) {
-        // queue 不为空，且 最后一个元素
+        // queue 不为空，将队列中小于 当前数据的元素全部弹出
         while (!queue.isEmpty() && queue.peekLast() < data) {
             queue.pollLast();
         }
