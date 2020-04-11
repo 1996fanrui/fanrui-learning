@@ -22,30 +22,30 @@
             </plugin>
 
             <!--mvn suishen:log-deps-check-maven-plugin:1.0-SNAPSHOT:check-->
-            <plugin>
-                <groupId>suishen</groupId>
-                <artifactId>log-deps-check-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <id>check-log-deps</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <failOnError>true</failOnError>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>suishen</groupId>-->
+                <!--<artifactId>log-deps-check-maven-plugin</artifactId>-->
+                <!--<version>1.0-SNAPSHOT</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>check-log-deps</id>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>check</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<failOnError>true</failOnError>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
         </plugins>
     </build>
 
 
     <properties>
-        <flink.version>1.8.1</flink.version>
+        <flink.version>1.10.0</flink.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.11</scala.version>
         <kafka.version>0.11</kafka.version>
@@ -83,6 +83,7 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
                     <version>${flink.version}</version>
+                    <scope>compile</scope>
                 </dependency>
 
                 <dependency>
@@ -101,6 +102,34 @@
 
 
                 <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+                    <version>${flink.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+                    <version>${flink.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-table-common</artifactId>
+                    <version>${flink.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+
+                <!--data format json-->
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-json</artifactId>
+                    <version>${flink.version}</version>
+                </dependency>
+
+                <dependency>
                     <groupId>com.twitter</groupId>
                     <artifactId>chill-protobuf</artifactId>
                     <version>0.5.2</version>
@@ -114,6 +143,7 @@
                             <groupId>com.esotericsoftware.kryo</groupId>
                         </exclusion>
                     </exclusions>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -141,6 +171,37 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-${kafka.version}_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-common</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!--data format json-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
