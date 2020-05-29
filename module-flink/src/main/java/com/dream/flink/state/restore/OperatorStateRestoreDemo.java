@@ -16,7 +16,8 @@ public class OperatorStateRestoreDemo {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        CheckpointUtil.setFsStateBackend(env);
+        env.setParallelism(2);
+        CheckpointUtil.setConfYamlStateBackend(env);
 
         env.addSource(new DataGenerator()).print();
 
