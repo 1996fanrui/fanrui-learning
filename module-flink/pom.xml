@@ -90,6 +90,62 @@
 
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-runtime_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-runtime_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--            <type>test-jar</type>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-core</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-statebackend-rocksdb &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-statebackend-rocksdb_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-statebackend-rocksdb_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--            <type>test-jar</type>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-streaming-java &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-streaming-java_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-yarn &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-yarn_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-clients &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.blink</groupId>-->
+<!--            <artifactId>flink-clients_2.11</artifactId>-->
+<!--            <version>blink-3.4.0</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_${scala.binary.version}</artifactId>
