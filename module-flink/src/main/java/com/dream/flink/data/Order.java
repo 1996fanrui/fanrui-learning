@@ -1,5 +1,6 @@
 package com.dream.flink.data;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * 订单的详细信息
  */
 @Data
+@Builder
 public class Order {
     /** 订单发生的时间 */
     long time;
