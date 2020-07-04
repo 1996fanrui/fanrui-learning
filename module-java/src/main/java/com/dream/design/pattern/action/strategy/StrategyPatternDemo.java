@@ -59,6 +59,7 @@ public class StrategyPatternDemo {
             type = args[0];
         }
         Strategy strategy = StrategyFactory.getStrategy(type);
+        // 调用策略类的 algorithmInterface 方法去执行代码逻辑
         strategy.algorithmInterface();
     }
 

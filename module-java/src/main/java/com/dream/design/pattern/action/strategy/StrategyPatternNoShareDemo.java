@@ -38,33 +38,37 @@ public class StrategyPatternNoShareDemo {
         Strategy create();
     }
 
-    // Map 的 key 为策略类型，value 为 策略的工厂类
-    private static final Map<String, StrategyFactory> STRATEGY_FACTORIES = new HashMap<>();
+    public static class Factory {
 
-    /*
-     * ConcreteStrategyA::new 是 Java 8 的新特性：方法引用
-     * 等价于：
-     *      new StrategyFactory() {
-     *          @Override
-     *          public Strategy create() {
-     *              return new ConcreteStrategyA();
-     *          }
-     *      }
-     * 等价于：  () -> new ConcreteStrategyA()
-     */
-    static {
-        STRATEGY_FACTORIES.put("A", ConcreteStrategyA::new);
-        STRATEGY_FACTORIES.put("B", ConcreteStrategyB::new);
-    }
+        // Map 的 key 为策略类型，value 为 策略的工厂类
+        private static final Map<String, StrategyFactory> STRATEGY_FACTORIES = new HashMap<>();
 
-    public static Strategy getStrategy(String type) {
-        if (type == null || type.isEmpty()) {
-            throw new IllegalArgumentException("type should not be empty.");
+        /*
+         * ConcreteStrategyA::new 是 Java 8 的新特性：方法引用
+         * 等价于：
+         *      new StrategyFactory() {
+         *          @Override
+         *          public Strategy create() {
+         *              return new ConcreteStrategyA();
+         *          }
+         *      }
+         * 等价于：  () -> new ConcreteStrategyA()
+         */
+        static {
+            STRATEGY_FACTORIES.put("A", ConcreteStrategyA::new);
+            STRATEGY_FACTORIES.put("B", ConcreteStrategyB::new);
         }
-        // 根据 type 获取对应的策略工厂，根据工厂创建出策略类
-        StrategyFactory strategyFactory = STRATEGY_FACTORIES.get(type);
-        return strategyFactory.create();
+
+        public static Strategy getStrategy(String type) {
+            if (type == null || type.isEmpty()) {
+                throw new IllegalArgumentException("type should not be empty.");
+            }
+            // 根据 type 获取对应的策略工厂，根据工厂创建出策略类
+            StrategyFactory strategyFactory = STRATEGY_FACTORIES.get(type);
+            return strategyFactory.create();
+        }
     }
+
 
     private final static String DEFAULT_STRATEGY_TYPE = "A";
 
@@ -73,7 +77,7 @@ public class StrategyPatternNoShareDemo {
         if (args.length > 0) {
             type = args[0];
         }
-        Strategy strategy = getStrategy(type);
+        Strategy strategy = Factory.getStrategy(type);
         strategy.algorithmInterface();
     }
 
