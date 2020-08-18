@@ -1,4 +1,4 @@
-package com.dream.jmh;
+package com.dream.jmh.demo;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Group;
