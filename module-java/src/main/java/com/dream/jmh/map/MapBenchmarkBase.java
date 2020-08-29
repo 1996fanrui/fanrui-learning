@@ -31,6 +31,11 @@ public abstract class MapBenchmarkBase extends BenchmarkBase {
         return map.get(keyValue.setupKey);
     }
 
+    @Benchmark
+    public boolean containsKey(KeyValue keyValue) throws IOException {
+        return map.containsKey(keyValue.setupKey);
+    }
+
     /**
      * KeyValue
      */
