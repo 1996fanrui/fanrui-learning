@@ -45,6 +45,11 @@ public class LinkedHashMapKryoTest {
     kryo.register(Class.forName(className),
         (Serializer) Class.forName(serializerClassName).newInstance());
 
+    // flink 注册 Kryo 序列化器的代码
+//    env.getConfig().registerTypeWithKryoSerializer(LinkedHashSet.class, LinkedHashSetSerializer.class);
+//    env.getConfig().registerTypeWithKryoSerializer(Class.forName(className),
+//                                                  Class.forName(serializerClassName));
+
     try (Output output = new Output(new FileOutputStream("/Users/fanrui03/Downloads/kryo.ser"))) {
       kryo.writeClassAndObject(output, map);
     } catch (FileNotFoundException e) {
