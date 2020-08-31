@@ -17,11 +17,12 @@ public class BenchmarkConstants {
         this.setupKeyCount = setupKeyCount;
 
         {
-            setupKeys = new ArrayList<>(setupKeyCount);
+            ArrayList<Long> list = new ArrayList<>(setupKeyCount);
             for (long i = 0; i < setupKeyCount; i++) {
-                setupKeys.add(i);
+                list.add(i);
             }
-            Collections.shuffle(setupKeys);
+            Collections.shuffle(list);
+            setupKeys = list;
         }
 
     }
