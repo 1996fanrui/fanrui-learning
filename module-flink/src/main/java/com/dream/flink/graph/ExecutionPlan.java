@@ -6,6 +6,8 @@ import com.dream.flink.util.CheckpointUtil;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
+import java.util.Objects;
+
 /**
  * @author fanrui03
  * @time 2020-09-02 11:15:42
@@ -23,6 +25,7 @@ public class ExecutionPlan {
     CheckpointUtil.setConfYamlStateBackend(env);
 
     env.addSource(new OrderGenerator())
+        .filter(Objects::nonNull)
         .keyBy(Order::getUserId)
         .map(new MapFunction<Order, String>() {
           @Override

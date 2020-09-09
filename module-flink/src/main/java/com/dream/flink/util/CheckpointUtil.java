@@ -40,9 +40,9 @@ public class CheckpointUtil {
 
         RocksDBStateBackend rocksDBStateBackend = new RocksDBStateBackend(
                 "hdfs:///user/flink/checkpoints", ENABLE_INCREMENTAL_CHECKPOINT);
-        rocksDBStateBackend.setNumberOfTransferingThreads(NUMBER_OF_TRANSFER_THREADS);
+        rocksDBStateBackend.setNumberOfTransferThreads(NUMBER_OF_TRANSFER_THREADS);
         rocksDBStateBackend.setPredefinedOptions(PredefinedOptions.SPINNING_DISK_OPTIMIZED_HIGH_MEM);
-        rocksDBStateBackend.enableTtlCompactionFilter();
+//        rocksDBStateBackend.enableTtlCompactionFilter(); // enabled by default
         env.setStateBackend((StateBackend) rocksDBStateBackend);
     }
 
