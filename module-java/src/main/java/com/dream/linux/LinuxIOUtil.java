@@ -47,7 +47,7 @@ public class LinuxIOUtil {
 
     @Override
     public int compareTo(DiskIOUsage other) {
-      return this.ioUsage > other.ioUsage ? 1 : -1;
+      return Float.compare(this.ioUsage, other.ioUsage);
     }
 
     @Override
