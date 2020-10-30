@@ -1,4 +1,4 @@
-package com.dream.stat;
+package com.dream.math.stat;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
