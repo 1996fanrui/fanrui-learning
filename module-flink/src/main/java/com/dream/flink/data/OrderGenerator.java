@@ -3,31 +3,29 @@ package com.dream.flink.data;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class OrderGenerator extends RichParallelSourceFunction<Order> {
 
     private static final Random random = new Random();
     private static long orderId = 0;
 
+    private int userIdMax = 10_000_000;
+
     @Override
     public void run(SourceContext sourceContext) throws Exception {
         while (true) {
-            TimeUnit.MILLISECONDS.sleep(100);
 
             int cityId = random.nextInt(10);
-            if(cityId == 0){
+            if (cityId == 0) {
                 sourceContext.collect(null);
             }
 
-            Order order = Order.builder()
-                    .time(System.currentTimeMillis())
-                    .orderId("orderId:" + orderId++)
-                    .cityId(cityId)
-                    .goodsId(random.nextInt(10))
-                    .price(random.nextInt(10000))
-                    .userId("UserId:" + random.nextInt(10000))
-                    .build();
+            String orderId = "orderId:" + OrderGenerator.orderId++;
+            String userId = Integer.toString(random.nextInt(userIdMax));
+            int goodsId = random.nextInt(10);
+            int price = random.nextInt(10000);
+            Order order = new Order(System.currentTimeMillis(),
+                    orderId, userId, goodsId, price, cityId);
             sourceContext.collect(order);
         }
     }
