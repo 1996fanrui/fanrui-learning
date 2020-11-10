@@ -1,5 +1,6 @@
 package com.dream.flink.io.jmh;
 
+import com.dream.flink.io.input.FSDataBufferedInputStream;
 import org.apache.flink.core.fs.FSDataInputStream;
 import org.apache.flink.core.memory.DataInputViewStreamWrapper;
 import org.apache.flink.core.memory.DataOutputViewStreamWrapper;
@@ -13,12 +14,13 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
 /**
  * @author fanrui03
  * @date 2020/10/31 13:04
+ *
+ * nohup java -XX:+UseG1GC -Xmx10g -Xms10g -XX:MetaspaceSize=128m -XX:MaxGCPauseMillis=500 -XX:ParallelGCThreads=24 -XX:ConcGCThreads=6 -XX:+AggressiveOpts -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:-ResizePLAB -XX:+UseStringDeduplication -XX:+PrintAdaptiveSizePolicy -XX:InitiatingHeapOccupancyPercent=75 -XX:+UnlockExperimentalVMOptions -XX:G1HeapWastePercent=5 -XX:G1MixedGCLiveThresholdPercent=85 -XX:+PrintPromotionFailure -XX:MaxDirectMemorySize=2g -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -Dlog.file=./benchmark.log -Dlog4j.configuration=file:/home/hbase/fanrui/slimbase/log4j.properties -cp ./module-flink-1.0-SNAPSHOT-jar-with-dependencies.jar com.dream.flink.io.jmh.InputBenchmark > benchmark.out 2>&1 &
  */
 public class InputBenchmark extends IOBenchmarkBase {
 
@@ -59,7 +61,8 @@ public class InputBenchmark extends IOBenchmarkBase {
             inputView = new DataInputViewStreamWrapper(fsDataInputStream);
             return;
         }
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(fsDataInputStream, bufferSize);
+        FSDataBufferedInputStream bufferedInputStream =
+                new FSDataBufferedInputStream(fsDataInputStream, bufferSize);
         inputView = new DataInputViewStreamWrapper(bufferedInputStream);
     }
 

@@ -1,5 +1,6 @@
 package com.dream.flink.io;
 
+import com.dream.flink.io.input.FSDataBufferedInputStream;
 import org.apache.flink.core.fs.FSDataInputStream;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.core.memory.DataInputViewStreamWrapper;
@@ -7,7 +8,6 @@ import org.apache.flink.core.memory.DataOutputViewStreamWrapper;
 import org.apache.flink.runtime.state.StreamStateHandle;
 import org.apache.flink.runtime.state.filesystem.FsCheckpointStreamFactory;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +58,7 @@ public class IOSimpleBenchmark {
 
         // start read
         FSDataInputStream fsDataInputStream = stateHandle.openInputStream();
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(fsDataInputStream);
+        FSDataBufferedInputStream bufferedInputStream = new FSDataBufferedInputStream(fsDataInputStream);
         DataInputViewStreamWrapper inputView = new DataInputViewStreamWrapper(bufferedInputStream);
         int bytesCount = inputView.readInt();
         System.out.println("read bytesCount：" + bytesCount);

@@ -24,7 +24,8 @@ public abstract class IOBenchmarkBase extends BenchmarkBase {
     @Param({"100", "1000"})
     int bytesLength;
 
-    @Param({"0", "1000", "10000", "1000000"})   // no buffer, 1KB, 10KB, 1MB
+    // no buffer, 1KB, 10KB, 1MB
+    @Param({"0", "1000", "10000", "1000000"})
     int bufferSize;
 
     protected int bytesCount;
@@ -33,8 +34,10 @@ public abstract class IOBenchmarkBase extends BenchmarkBase {
 
     protected Path filePath;
 
-    protected void initFile(){
-        file = new File("module-flink/.tmp", String.valueOf(UUID.randomUUID()));
+    private static final String LOCAL_DIR = "module-flink/.tmp";
+
+    protected void initFile() {
+        file = new File(LOCAL_DIR, String.valueOf(UUID.randomUUID()));
         System.out.println(file.getPath());
         filePath = new Path(file.toURI());
     }
