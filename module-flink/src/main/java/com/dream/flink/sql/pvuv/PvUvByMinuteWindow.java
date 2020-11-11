@@ -3,6 +3,7 @@ package com.dream.flink.sql.pvuv;
 import com.dream.flink.data.Order;
 import com.dream.flink.data.OrderGenerator;
 import com.dream.flink.sql.FlinkSqlUtil;
+import com.dream.flink.util.CheckpointUtil;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
@@ -20,6 +21,7 @@ public class PvUvByMinuteWindow {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
+        CheckpointUtil.setConfYamlStateBackend(env);
 
         StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
 

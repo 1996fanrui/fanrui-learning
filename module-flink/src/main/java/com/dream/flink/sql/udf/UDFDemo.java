@@ -1,46 +1,53 @@
-package com.dream.flink.sql;
+package com.dream.flink.sql.udf;
 
 import com.dream.flink.data.Order;
 import com.dream.flink.data.OrderGenerator;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
+import org.apache.flink.table.functions.ScalarFunction;
 import org.apache.flink.types.Row;
 
 import java.util.Objects;
 
-/**
- * @author fanrui03
- * @date 2020/9/20 14:19
- */
-public class SimpleQueryDemo {
+public class UDFDemo {
 
     public static void main(String[] args) throws Exception {
+
         EnvironmentSettings mySetting = EnvironmentSettings
-            .newInstance()
-            .useBlinkPlanner()
-            .inStreamingMode()
-            .build();
+                .newInstance()
+                .useBlinkPlanner()
+                .inStreamingMode()
+                .build();
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(2);
-
+        env.setParallelism(1);
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env, mySetting);
 
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
-            .filter(Objects::nonNull);
+                .filter(Objects::nonNull);
 
         tableEnv.createTemporaryView("order_table", orderStream,
-            "ts, orderId, userId, goodsId, price, cityId");
+                "ts, orderId, userId, goodsId, price, cityId");
 
-        Table query = tableEnv.sqlQuery("select *, md5(userId), concat_ws('~', userId, orderId) from order_table");
+        tableEnv.registerFunction("hashCode", new HashCode());
+
+        Table query = tableEnv.sqlQuery("select orderId, hashCode(orderId)  from order_table");
 
         DataStream<Row> orderDataStream = tableEnv.toAppendStream(query, Row.class);
         orderDataStream.print();
 
-        env.execute(SimpleQueryDemo.class.getSimpleName());
+        env.execute("sql_udf");
+    }
+
+    public static class HashCode extends ScalarFunction {
+
+        public int eval(String s) {
+            return s.hashCode();
+        }
     }
 
 }
