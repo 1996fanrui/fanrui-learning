@@ -3,7 +3,6 @@ package com.dream.flink.sql.udf;
 import com.dream.flink.data.Order;
 import com.dream.flink.data.OrderGenerator;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
