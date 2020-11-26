@@ -1,4 +1,4 @@
-package com.dream.flink.kryo;
+package com.dream.flink.kryo.map;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
@@ -39,7 +39,7 @@ public class LinkedHashMapKryoTest {
     Kryo kryo = new Kryo();
 
     String className = "com.dream.flink.kryo.LinkedHashSet";
-    String serializerClassName = "com.dream.flink.kryo.LinkedHashSetSerializer";
+    String serializerClassName = "com.dream.flink.kryo.map.LinkedHashSetSerializer";
 
 //    kryo.register(LinkedHashSet.class, new LinkedHashSetSerializer());
     kryo.register(Class.forName(className),

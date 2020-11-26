@@ -1,4 +1,4 @@
-package com.dream.flink.kryo;
+package com.dream.flink.kryo.map;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.dream.flink.kryo;
+package com.dream.flink.kryo.map;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
