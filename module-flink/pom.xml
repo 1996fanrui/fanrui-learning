@@ -10,39 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>module-flink</artifactId>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-
-            <!--mvn suishen:log-deps-check-maven-plugin:1.0-SNAPSHOT:check-->
-            <!--<plugin>-->
-                <!--<groupId>suishen</groupId>-->
-                <!--<artifactId>log-deps-check-maven-plugin</artifactId>-->
-                <!--<version>1.0-SNAPSHOT</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>check-log-deps</id>-->
-                        <!--<phase>validate</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>check</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<failOnError>true</failOnError>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
-        </plugins>
-    </build>
-
 
     <properties>
         <flink.version>1.10.0</flink.version>
@@ -98,6 +65,12 @@
                     <version>${flink.version}</version>
                     <scope>compile</scope>
                 </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.12</version>
+                    <scope>compile</scope>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>
@@ -107,13 +80,13 @@
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.blink</groupId>-->
 <!--            <artifactId>flink-runtime_2.11</artifactId>-->
-<!--            <version>blink-3.4.0</version>-->
+<!--            <version>blink-3.7.0</version>-->
 <!--        </dependency>-->
 
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.blink</groupId>-->
 <!--            <artifactId>flink-runtime_2.11</artifactId>-->
-<!--            <version>blink-3.4.0</version>-->
+<!--            <version>blink-3.7.0</version>-->
 <!--            <type>test-jar</type>-->
 <!--        </dependency>-->
 
@@ -121,7 +94,7 @@
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.blink</groupId>-->
 <!--            <artifactId>flink-core</artifactId>-->
-<!--            <version>blink-3.4.0</version>-->
+<!--            <version>blink-3.7.0</version>-->
 <!--        </dependency>-->
 
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.blink/flink-statebackend-rocksdb &ndash;&gt;-->
@@ -164,27 +137,27 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
@@ -197,21 +170,21 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
@@ -234,5 +207,36 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

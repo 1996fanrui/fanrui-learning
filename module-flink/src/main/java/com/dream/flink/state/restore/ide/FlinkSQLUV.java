@@ -1,8 +1,7 @@
-package com.dream.flink.io;
+package com.dream.flink.state.restore.ide;
 
 import com.dream.flink.data.Order;
 import com.dream.flink.data.OrderGenerator;
-import com.dream.flink.state.restore.ide.CheckpointRestoreByIDEUtils;
 import com.dream.flink.util.CheckpointUtil;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -18,12 +17,11 @@ import java.util.Objects;
 
 /**
  * @author fanrui03
- * @date 2020/10/31 14:20
+ * @date 2020/11/29 15:31
  */
-public class BigStateIOOptimization {
+public class FlinkSQLUV {
 
     public static void main(String[] args) throws Exception {
-
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         CheckpointUtil.setFsStateBackend(env);
         env.setParallelism(1);
@@ -49,8 +47,9 @@ public class BigStateIOOptimization {
                 .map((MapFunction<Tuple2<Boolean, Row>, Row>) value -> value.f1)
                 .print();
 
-        env.execute(BigStateIOOptimization.class.getSimpleName());
-//        String externalCheckpoint = "file:///Users/fanrui03/Documents/tmp/checkpoint/f74a3a6af248b9aaeb81f61f83164c31/chk-1";
-//        CheckpointRestoreByIDEUtils.run(env.getStreamGraph(), externalCheckpoint);
+//        env.execute(FlinkSQLUV.class.getSimpleName());
+        String externalCheckpoint = "file:///Users/fanrui03/Documents/tmp/checkpoint/f74a3a6af248b9aaeb81f61f83164c31/chk-1";
+        CheckpointRestoreByIDEUtils.run(env.getStreamGraph(), externalCheckpoint);
+
     }
 }
