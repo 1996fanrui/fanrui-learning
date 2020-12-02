@@ -4,7 +4,7 @@ import org.apache.flink.core.fs.Path;
 import org.apache.flink.runtime.checkpoint.Checkpoints;
 import org.apache.flink.runtime.checkpoint.OperatorState;
 import org.apache.flink.runtime.checkpoint.OperatorSubtaskState;
-import org.apache.flink.runtime.checkpoint.savepoint.Savepoint;
+import org.apache.flink.runtime.checkpoint.metadata.CheckpointMetadata;
 import org.apache.flink.runtime.state.*;
 import org.apache.flink.runtime.state.filesystem.FileStateHandle;
 
@@ -28,8 +28,8 @@ public class MetadataSerializer {
         DataInputStream dis = new DataInputStream(bis);
 
         // 通过 Flink 的 Checkpoints 类解析元数据文件
-        Savepoint savepoint = Checkpoints.loadCheckpointMetadata(dis,
-                MetadataSerializer.class.getClassLoader());
+        CheckpointMetadata savepoint = Checkpoints.loadCheckpointMetadata(dis,
+                MetadataSerializer.class.getClassLoader(), "");
         // 打印当前的 CheckpointId
         System.out.println(savepoint.getCheckpointId());
 
