@@ -27,17 +27,23 @@ public class CheckpointRestoreByIDEUtils {
     public static void run(
             @Nonnull StreamGraph streamGraph,
             @Nullable String externalCheckpoint) throws Exception {
+        // 根据 StreamGraph 生成 JobGraph
         JobGraph jobGraph = streamGraph.getJobGraph();
         if (externalCheckpoint != null) {
+            // 将 Checkpoint 目录设置到 JobGraph 中
             jobGraph.setSavepointRestoreSettings(SavepointRestoreSettings.forPath(externalCheckpoint));
         }
 
+        // 计算 jobGraph 需要的 slot 个数
         int slotNum = getSlotNum(jobGraph);
+        // 初始化 MiniCluster
         ClusterClient<?> clusterClient = initCluster(slotNum);
+        // 提交任务到 MiniCluster
         clusterClient.submitJob(jobGraph).get();
     }
 
     private static int getSlotNum(JobGraph jobGraph) {
+        // 保存每个 SlotSharingGroup 需要的 slot 个数
         HashMap<SlotSharingGroupId, Integer> map = new HashMap<>();
         for (JobVertex jobVertex : jobGraph.getVertices()) {
             SlotSharingGroupId slotSharingGroupId = jobVertex.getSlotSharingGroup()
@@ -48,6 +54,7 @@ public class CheckpointRestoreByIDEUtils {
                 map.put(slotSharingGroupId, parallelism);
             }
         }
+        // 将所有 SlotSharingGroup 的 slot 个数累加
         int slotNum = 0;
         for (int parallelism : map.values()) {
             slotNum += parallelism;
