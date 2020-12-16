@@ -55,7 +55,7 @@ public class CheckpointUtil {
      */
     public static void setFsStateBackend(StreamExecutionEnvironment env) throws IOException {
         setConfYamlStateBackend(env);
-        FsStateBackend fsStateBackend = new FsStateBackend("hdfs:///user/flink/checkpoints");
+        FsStateBackend fsStateBackend = new FsStateBackend("file:///Users/fanrui03/Documents/tmp/checkpoint");
         env.setStateBackend((StateBackend) fsStateBackend);
     }
 

@@ -1,12 +1,10 @@
 package com.dream.flink.window;
 
-import com.alibaba.fastjson.JSON;
 import com.dream.flink.data.Order;
+import com.dream.flink.data.OrderGenerator;
 import com.dream.flink.func.aggregate.SumAggregate;
 import com.dream.flink.util.CheckpointUtil;
-import com.dream.flink.util.KafkaConfigUtil;
 import com.dream.flink.window.model.CityUserCostOfCurWindow;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
 import org.apache.flink.api.java.functions.KeySelector;
@@ -20,8 +18,6 @@ import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrderness
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
 import org.apache.flink.util.Collector;
 
 import java.util.ArrayList;
@@ -49,38 +45,47 @@ public class WindowTopN {
         env.setParallelism(1);
 
         // 测试使用，线上千万不能配置 Memory
-        CheckpointUtil.setMemoryStateBackend(env);
+        CheckpointUtil.setConfYamlStateBackend(env);
 
         // 读取订单数据，读取的是 json 类型的字符串
-        FlinkKafkaConsumerBase<String> consumerBigOrder =
-                new FlinkKafkaConsumer011<>("order_topic_name",
-                        new SimpleStringSchema(),
-                        KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
-                        .setStartFromGroupOffsets();
+//        FlinkKafkaConsumerBase<String> consumerBigOrder =
+//                new FlinkKafkaConsumer011<>("order_topic_name",
+//                        new SimpleStringSchema(),
+//                        KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
+//                        .setStartFromGroupOffsets();
 
         // 读取订单数据，从 json 解析成 Order 类，
-        SingleOutputStreamOperator<Order> orderStream = env.addSource(consumerBigOrder)
-                // 有状态算子一定要配置 uid
-                .uid("order_topic_name")
-                // 过滤掉 null 数据
-                .filter(Objects::nonNull)
-                // 将 json 解析为 Order 类
-                .map(str -> JSON.parseObject(str, Order.class))
-                .assignTimestampsAndWatermarks(
-                        new BoundedOutOfOrdernessTimestampExtractor<Order>(Time.seconds(10)) {
-                            @Override
-                            public long extractTimestamp(Order order) {
-                                return order.getTime();
-                            }
-                        });
+        SingleOutputStreamOperator<Order> orderStream = env.addSource(new OrderGenerator())
+            // 有状态算子一定要配置 uid
+            .uid("order_topic_name")
+            // 过滤掉 null 数据
+            .filter(Objects::nonNull)
+            // 将 json 解析为 Order 类
+//                .map(str -> JSON.parseObject(str, Order.class))
+            .assignTimestampsAndWatermarks(
+                new BoundedOutOfOrdernessTimestampExtractor<Order>(Time.seconds(10)) {
+                    @Override
+                    public long extractTimestamp(Order order) {
+                        return order.getTs();
+                    }
+                });
 
-        SingleOutputStreamOperator<CityUserCostOfCurWindow> res = orderStream.keyBy((KeySelector<Order, Tuple2<Integer, String>>)
-                order -> Tuple2.of(order.getCityId(), order.getUserId()))
-                .timeWindow(Time.minutes(5))
-                .aggregate(new SumAggregate<>(Order::getPrice), new CityUserCostWindowFunction())
-                .keyBy((KeySelector<CityUserCostOfCurWindow, Tuple2<Long, Integer>>)
-                        entry -> Tuple2.of(entry.getTime(), entry.getCityId()))
-                .process(new CityUserCostTopN());
+        SingleOutputStreamOperator<CityUserCostOfCurWindow> res = orderStream
+            .keyBy(new KeySelector<Order, Tuple2<Integer, String>>() {
+                @Override
+                public Tuple2<Integer, String> getKey(Order order) throws Exception {
+                    return Tuple2.of(order.getCityId(), order.getUserId());
+                }
+            })
+            .timeWindow(Time.minutes(5))
+            .aggregate(new SumAggregate<>(Order::getPrice), new CityUserCostWindowFunction())
+            .keyBy(new KeySelector<CityUserCostOfCurWindow, Tuple2<Long, Integer>>() {
+                @Override
+                public Tuple2<Long, Integer> getKey(CityUserCostOfCurWindow entry) throws Exception {
+                    return Tuple2.of(entry.getTime(), entry.getCityId());
+                }
+            })
+            .process(new CityUserCostTopN());
 
         res.print();
 
@@ -90,14 +95,14 @@ public class WindowTopN {
 
     // 将 按照 city 和 user 当前窗口对应 cost 组合好发送到下游
     private static class CityUserCostWindowFunction implements
-            WindowFunction<Long, CityUserCostOfCurWindow,
-                    Tuple2<Integer, String>, TimeWindow> {
+        WindowFunction<Long, CityUserCostOfCurWindow,
+            Tuple2<Integer, String>, TimeWindow> {
         @Override
         public void apply(Tuple2<Integer, String> key,
                           TimeWindow window,
                           Iterable<Long> input,
                           Collector<CityUserCostOfCurWindow> out)
-                throws Exception {
+            throws Exception {
             long cost = input.iterator().next();
             out.collect(new CityUserCostOfCurWindow(window.getEnd(), key.f0, key.f1, cost));
         }
@@ -105,8 +110,8 @@ public class WindowTopN {
 
     // 计算当前窗口，当前城市，消耗最多的 N 个用户
     private static class CityUserCostTopN extends
-            KeyedProcessFunction<Tuple2<Long, Integer>,
-                    CityUserCostOfCurWindow, CityUserCostOfCurWindow> {
+        KeyedProcessFunction<Tuple2<Long, Integer>,
+            CityUserCostOfCurWindow, CityUserCostOfCurWindow> {
         // 默认求 Top 100
         int n = 100;
 
@@ -124,7 +129,7 @@ public class WindowTopN {
         public void open(Configuration parameters) throws Exception {
             super.open(parameters);
             ListStateDescriptor<CityUserCostOfCurWindow> itemViewStateDesc = new ListStateDescriptor<>(
-                    "entryState", CityUserCostOfCurWindow.class);
+                "entryState", CityUserCostOfCurWindow.class);
             entryState = getRuntimeContext().getListState(itemViewStateDesc);
         }
 
@@ -144,7 +149,7 @@ public class WindowTopN {
             for (CityUserCostOfCurWindow item : entryState.get()) {
                 allEntry.add(item);
             }
-            sortTopN(allEntry, new CostComparator(), n);
+//            sortTopN(allEntry, new CostComparator(), n);
             for (int i = 0; i < n; i++) {
                 out.collect(allEntry.get(i));
             }
@@ -218,10 +223,10 @@ public class WindowTopN {
                 return 0;
             }
             if (c.compare(valueL, valueMid) <= 0
-                    && c.compare(valueMid, valueR) <= 0) {
+                && c.compare(valueMid, valueR) <= 0) {
                 return mid;
             } else if (c.compare(valueMid, valueL) <= 0
-                    && c.compare(valueL, valueR) <= 0) {
+                && c.compare(valueL, valueR) <= 0) {
                 return L;
             } else {
                 return R;

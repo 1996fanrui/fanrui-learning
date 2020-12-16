@@ -16,7 +16,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoProcessFunction;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
@@ -61,7 +61,7 @@ public class OrderMatch {
 
         // 读取大订单数据，读取的是 json 类型的字符串
         FlinkKafkaConsumerBase<String> consumerBigOrder =
-                new FlinkKafkaConsumer011<>("big_order_topic_name",
+                new FlinkKafkaConsumer<>("big_order_topic_name",
                         new SimpleStringSchema(),
                         KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
                         .setStartFromGroupOffsets();
@@ -81,7 +81,7 @@ public class OrderMatch {
                                 (Time.seconds(60)) {
                             @Override
                             public long extractTimestamp(Order order) {
-                                return order.getTime();
+                                return order.getTs();
                             }
                         })
                 // 按照 订单id 进行 keyBy
@@ -89,7 +89,7 @@ public class OrderMatch {
 
         // 小订单处理逻辑与大订单完全一样
         FlinkKafkaConsumerBase<String> consumerSmallOrder =
-                new FlinkKafkaConsumer011<>("small_order_topic_name",
+                new FlinkKafkaConsumer<>("small_order_topic_name",
                         new SimpleStringSchema(),
                         KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
                         .setStartFromGroupOffsets();
@@ -103,7 +103,7 @@ public class OrderMatch {
                                 (Time.seconds(10)) {
                             @Override
                             public long extractTimestamp(Order order) {
-                                return order.getTime();
+                                return order.getTs();
                             }
                         })
                 .keyBy(Order::getOrderId);
@@ -139,7 +139,7 @@ public class OrderMatch {
                             // 小订单还没来，将大订单放到状态中，并注册 1 分钟之后触发的 timerState
                             bigState.update(bigOrder);
                             // 1 分钟后触发定时器，并将定时器的触发时间保存在 timerState 中
-                            long time = bigOrder.getTime() + 60000;
+                            long time = bigOrder.getTs() + 60000;
                             timerState.update(time);
                             ctx.timerService().registerEventTimeTimer(time);
                         }
@@ -158,7 +158,7 @@ public class OrderMatch {
                             timerState.clear();
                         } else {
                             smallState.update(smallOrder);
-                            long time = smallOrder.getTime() + 60000;
+                            long time = smallOrder.getTs() + 60000;
                             timerState.update(time);
                             ctx.timerService().registerEventTimeTimer(time);
                         }

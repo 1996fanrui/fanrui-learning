@@ -1,20 +1,17 @@
 package com.dream.flink.window.watermark;
 
 import com.dream.flink.data.proto.AppInfo;
-import com.dream.flink.func.aggregate.CountAggregate;
-import com.dream.flink.func.aggregate.StringConcatAggregate;
 import com.dream.flink.func.serialize.ProtobufDeserialize;
 import com.dream.flink.util.CheckpointUtil;
 import com.dream.flink.util.KafkaConfigUtil;
 import com.twitter.chill.protobuf.ProtobufSerializer;
-import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
 import org.apache.flink.util.Collector;
 
@@ -65,7 +62,7 @@ public class WindowWaterMarkTrigger {
 
         CheckpointUtil.setMemoryStateBackend(env);
 
-        FlinkKafkaConsumerBase<AppInfo.Log> consumer = new FlinkKafkaConsumer011<>(KAFKA_TOPIC,
+        FlinkKafkaConsumerBase<AppInfo.Log> consumer = new FlinkKafkaConsumer<>(KAFKA_TOPIC,
                 new ProtobufDeserialize<>(AppInfo.Log.class), KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
                 .setStartFromLatest();
 

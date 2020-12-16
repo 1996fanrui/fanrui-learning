@@ -15,7 +15,7 @@ import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.BroadcastProcessFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase;
 import org.apache.flink.util.Collector;
 
@@ -44,7 +44,7 @@ public class BroadcastOrderJoinGoodsName {
 
         // 读取订单数据，读取的是 json 类型的字符串
         FlinkKafkaConsumerBase<String> consumerBigOrder =
-                new FlinkKafkaConsumer011<>("order_topic_name",
+                new FlinkKafkaConsumer<>("order_topic_name",
                         new SimpleStringSchema(),
                         KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
                         .setStartFromGroupOffsets();
@@ -60,7 +60,7 @@ public class BroadcastOrderJoinGoodsName {
 
         // 读取商品 id 与 商品名称的映射关系维表信息
         FlinkKafkaConsumerBase<String> consumerSmallOrder =
-                new FlinkKafkaConsumer011<>("goods_dim_topic_name",
+                new FlinkKafkaConsumer<>("goods_dim_topic_name",
                         new SimpleStringSchema(),
                         KafkaConfigUtil.buildConsumerProps(KAFKA_CONSUMER_GROUP_ID))
                         .setStartFromGroupOffsets();

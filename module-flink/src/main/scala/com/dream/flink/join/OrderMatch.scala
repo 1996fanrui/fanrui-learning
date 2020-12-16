@@ -12,7 +12,8 @@ import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrderness
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.{CheckpointingMode, TimeCharacteristic}
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaConsumerBase}
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaConsumerBase}
+//import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaConsumerBase}
 import org.apache.flink.util.Collector
 import org.apache.kafka.clients.consumer.ConsumerConfig
 
@@ -57,11 +58,11 @@ object OrderMatch {
         consumerProps.setProperty(ConsumerConfig.GROUP_ID_CONFIG, KAFKA_CONSUMER_GROUP_ID)
         consumerProps.setProperty(FlinkKafkaConsumerBase.KEY_PARTITION_DISCOVERY_INTERVAL_MILLIS, TimeUnit.MINUTES.toMillis(1).toString)
 
-        val consumerBigOrder = new FlinkKafkaConsumer011[String]("big_order_topic_name",
+        val consumerBigOrder = new FlinkKafkaConsumer[String]("big_order_topic_name",
             new SimpleStringSchema, consumerProps)
                 .setStartFromGroupOffsets()
 
-        val consumerSmallOrder = new FlinkKafkaConsumer011[String]("small_order_topic_name",
+        val consumerSmallOrder = new FlinkKafkaConsumer[String]("small_order_topic_name",
             new SimpleStringSchema, consumerProps)
                 .setStartFromGroupOffsets()
 
