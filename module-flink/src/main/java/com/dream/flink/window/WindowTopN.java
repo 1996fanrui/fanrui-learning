@@ -70,7 +70,7 @@ public class WindowTopN {
                         new BoundedOutOfOrdernessTimestampExtractor<Order>(Time.seconds(10)) {
                             @Override
                             public long extractTimestamp(Order order) {
-                                return order.getTime();
+                                return order.getTs();
                             }
                         });
 

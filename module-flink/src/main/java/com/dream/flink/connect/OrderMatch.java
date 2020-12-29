@@ -81,7 +81,7 @@ public class OrderMatch {
                                 (Time.seconds(60)) {
                             @Override
                             public long extractTimestamp(Order order) {
-                                return order.getTime();
+                                return order.getTs();
                             }
                         })
                 // 按照 订单id 进行 keyBy
@@ -103,7 +103,7 @@ public class OrderMatch {
                                 (Time.seconds(10)) {
                             @Override
                             public long extractTimestamp(Order order) {
-                                return order.getTime();
+                                return order.getTs();
                             }
                         })
                 .keyBy(Order::getOrderId);
@@ -139,7 +139,7 @@ public class OrderMatch {
                             // 小订单还没来，将大订单放到状态中，并注册 1 分钟之后触发的 timerState
                             bigState.update(bigOrder);
                             // 1 分钟后触发定时器，并将定时器的触发时间保存在 timerState 中
-                            long time = bigOrder.getTime() + 60000;
+                            long time = bigOrder.getTs() + 60000;
                             timerState.update(time);
                             ctx.timerService().registerEventTimeTimer(time);
                         }
@@ -158,7 +158,7 @@ public class OrderMatch {
                             timerState.clear();
                         } else {
                             smallState.update(smallOrder);
-                            long time = smallOrder.getTime() + 60000;
+                            long time = smallOrder.getTs() + 60000;
                             timerState.update(time);
                             ctx.timerService().registerEventTimeTimer(time);
                         }
