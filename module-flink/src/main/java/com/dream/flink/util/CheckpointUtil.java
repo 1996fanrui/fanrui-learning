@@ -77,12 +77,12 @@ public class CheckpointUtil {
      * @param env env
      * @throws IOException
      */
-    public static void setConfYamlStateBackend(StreamExecutionEnvironment env) throws IOException {
-        env.enableCheckpointing(TimeUnit.MINUTES.toMillis(1));
+    public static void setConfYamlStateBackend(StreamExecutionEnvironment env) {
+        env.enableCheckpointing(TimeUnit.MINUTES.toMillis(3));
 
         CheckpointConfig checkpointConf = env.getCheckpointConfig();
         checkpointConf.setMinPauseBetweenCheckpoints(TimeUnit.SECONDS.toMillis(50));
-        checkpointConf.setCheckpointTimeout(TimeUnit.MINUTES.toMillis(3));
+        checkpointConf.setCheckpointTimeout(TimeUnit.MINUTES.toMillis(10));
         checkpointConf.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
         checkpointConf.enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
 
