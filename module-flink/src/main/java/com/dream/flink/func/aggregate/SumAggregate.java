@@ -2,6 +2,7 @@ package com.dream.flink.func.aggregate;
 
 import org.apache.flink.api.common.functions.AggregateFunction;
 
+import java.util.function.ToLongFunction;
 
 /**
  * Sum 专用的Aggregate

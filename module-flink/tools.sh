@@ -5,8 +5,7 @@ mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Drat.skip=tr
 
 mvn -T 8 clean install -DskipTests -Dmaven.javadoc.skip=true -Dcheckstyle.skip=true
 mvn -T 8 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
-mvn -T 8 clean package -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
-
+mvn -T 8 clean package -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 mvn -T 8 clean install -DskipTests -Dhadoop.version=2.7.6 -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
 
 
