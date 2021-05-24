@@ -28,7 +28,7 @@ public class BackPressureDemo {
                 "  app          INT,\n" +
                 "  channel      INT,\n" +
                 "  user_id      STRING,\n" +
-                "  ts AS localtimestamp,\n" +
+                "  ts           TIMESTAMP(3),\n" +
                 "  WATERMARK FOR ts AS ts\n" +
                 ") WITH (\n" +
                 "   'connector' = 'datagen',\n" +

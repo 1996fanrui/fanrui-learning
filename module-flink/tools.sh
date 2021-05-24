@@ -8,6 +8,8 @@ mvn -T 8 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dc
 mvn -T 8 clean package -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 mvn -T 8 clean install -DskipTests -Dhadoop.version=2.7.6 -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
 
+# 运行模块内的所有单测
+mvn -T 8 test -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 
 -B -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dmaven.test.skip=true  -Dgpg.skip=true -Dgpg.useagent=false -X clean deploy
 
