@@ -4,10 +4,14 @@ import org.apache.flink.types.Row;
 
 import java.util.concurrent.TimeUnit;
 
-public class SleepSink extends AbstractSink {
+public class RequestHBaseSink extends AbstractSink {
 
     @Override
     protected void doProcess(Row value, Context context) throws Exception {
+        requestHBase();
+    }
+
+    private void requestHBase() throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(100);
     }
 
