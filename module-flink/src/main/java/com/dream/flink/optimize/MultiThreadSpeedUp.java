@@ -43,7 +43,7 @@ public class MultiThreadSpeedUp {
         env.execute(BackPressureDemo.class.getSimpleName());
     }
 
-    public static class SlowFlatMapFunction extends RichFlatMapFunction<Row, String> {
+    private static class SlowFlatMapFunction extends RichFlatMapFunction<Row, String> {
 
         @Override
         public void flatMap(Row row, Collector<String> out) throws Exception {
@@ -58,14 +58,14 @@ public class MultiThreadSpeedUp {
         }
     }
 
-    public static class FastFlatMapFunction extends RichFlatMapFunction<Row, String> {
+    private static class FastFlatMapFunction extends RichFlatMapFunction<Row, String> {
         // This ExecutorService can be static, but this CompletionService must be created in each function.
         // The static ExecutorService can make multiple slots share the same thread pool.
         ExecutorService executor;
         CompletionService<String> cs;
 
         @Override
-        public void open(Configuration parameters) throws Exception {
+        public void open(Configuration parameters) {
             this.executor = Executors.newFixedThreadPool(20);
             this.cs = new ExecutorCompletionService<>(executor);
         }
@@ -82,6 +82,11 @@ public class MultiThreadSpeedUp {
             for (int i = 0; i < words.length; i++) {
                 out.collect(cs.take().get());
             }
+        }
+
+        @Override
+        public void close() {
+            executor.shutdown();
         }
     }
 
