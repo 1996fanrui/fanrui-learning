@@ -5,13 +5,18 @@ mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Drat.skip=tr
 
 mvn -T 8 clean install -DskipTests -Dmaven.javadoc.skip=true -Dcheckstyle.skip=true
 mvn -T 8 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
+mvn -T 8 clean install -DskipTests
+mvn -T 8 clean install -DskipTests -Dcheckstyle.skip=true
 mvn -T 8 clean package -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
+mvn -T 20 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 mvn -T 8 clean install -DskipTests -Dhadoop.version=2.7.6 -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
-
+-Dlog4j.configuration=file:/Users/leo.fan/code/github/fanrui-learning/module-flink/src/main/resources/logback.xml
 # 运行模块内的所有单测
 mvn -T 8 test -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 
 -B -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dmaven.test.skip=true  -Dgpg.skip=true -Dgpg.useagent=false -X clean deploy
+
+mvn -T 20 clean deploy -DskipTests -Ddocs-and-source -Dcheckstyle.skip=true
 
 # 跳过 apache License 检查
 -Drat.skip=true
@@ -40,5 +45,10 @@ flink 项目的 flink-dist/target/flink-1.10.0-XXX-bin 目录下
 tar -zxvf flink-1.10.0-XXX.tar.gz
 
 
+
+跳过一些模块
+
+
+mvn -T 20 clean install -Dscala-2.12 -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 
 
