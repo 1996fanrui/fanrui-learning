@@ -32,6 +32,16 @@ public class CompletableExceptionDemo {
 
         TimeUnit.SECONDS.sleep(3);
         executorService.shutdown();
+
+        // test case2:
+        CompletableFuture<Long> future = new CompletableFuture<>();
+        future.completeExceptionally(new IOException("completeExceptionally IOException 2."));
+        try {
+            Long aaa = future.get();
+            System.out.println(aaa);
+        } catch (Throwable e) {
+            System.out.println("throwable 2 : " + e);
+        }
     }
 
 }
