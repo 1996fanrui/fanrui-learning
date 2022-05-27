@@ -81,7 +81,15 @@ public class AsyncFunctionSpeedUp {
                         int id = row.getFieldAs(0);
                         return heavyOperation(Integer.toString(id));
                     }, executor)
-                    .thenAccept(result -> resultFuture.complete(Collections.singleton(result)));
+                    .thenAccept(result -> resultFuture.complete(Collections.singleton(result)))
+                    .exceptionally(throwable -> {
+                        // exceptionally 相当于 supplyAsync 的 catch
+                        // 如果想继续往外抛异常，可调用 completeExceptionally，
+                        // 如果不往外抛异常，可以调用 complete
+//                        resultFuture.completeExceptionally(throwable);
+                        resultFuture.complete(Collections.emptyList());
+                        return null;
+                    });
         }
 
         @Override
