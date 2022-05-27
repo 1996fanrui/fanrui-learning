@@ -1,16 +1,13 @@
 package com.dream.flink.sql.profile;
 
-import com.dream.flink.sql.FlinkSqlUtil;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.streaming.api.CheckpointingMode;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.types.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +17,9 @@ import java.util.concurrent.TimeUnit;
  * @author fanrui
  * @date 2022-03-10 18:54:57
  */
-public class MultiTaskBackPressureDemo {
+public class MultiTaskBackPressureWithNewSource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MultiTaskBackPressureDemo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MultiTaskBackPressureWithNewSource.class);
 
     public static void main(String[] args) throws Exception {
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
@@ -30,36 +27,18 @@ public class MultiTaskBackPressureDemo {
 
         StreamExecutionEnvironment env = getEnv();
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        DataStreamSource<Long> streamSource = env.fromSequence(0, 1_000_000_000_000_000L);
 
-        String sourceDDL = "CREATE TABLE orders (\n" +
-                "  app          INT,\n" +
-                "  channel      INT,\n" +
-                "  user_id      STRING,\n" +
-                "  ts           TIMESTAMP(3)\n" +
-                ") WITH (\n" +
-                "   'connector' = 'datagen',\n" +
-                "   'rows-per-second'='100000000',\n" +
-                "   'fields.app.min'='1',\n" +
-                "   'fields.app.max'='10',\n" +
-                "   'fields.channel.min'='21',\n" +
-                "   'fields.channel.max'='30',\n" +
-                "   'fields.user_id.length'='10'\n" +
-                ")";
-
-        tableEnv.executeSql(sourceDDL);
-
-        Table query = tableEnv.sqlQuery("select * from orders");
-        tableEnv.toAppendStream(query, Row.class)
-                .map((MapFunction<Row, Row>) value -> value).name("Map___1")
+        streamSource
+                .map((MapFunction<Long, Long>) value -> value).name("Map___1")
                 .rebalance()
-                .map((MapFunction<Row, Row>) value -> value).name("Map___2")
+                .map((MapFunction<Long, Long>) value -> value).name("Map___2")
                 .rebalance()
-                .map((MapFunction<Row, Row>) value -> value).name("Map___3")
+                .map((MapFunction<Long, Long>) value -> value).name("Map___3")
                 .rebalance()
-                .addSink(new RichSinkFunction<Row>() {
+                .addSink(new RichSinkFunction<Long>() {
                     @Override
-                    public void invoke(Row value, Context context) throws InterruptedException {
+                    public void invoke(Long value, Context context) throws InterruptedException {
                         if (getRuntimeContext().getIndexOfThisSubtask() == 0) {
                             // sleep cause backpressure
                             TimeUnit.MILLISECONDS.sleep(sleepMs);
@@ -68,7 +47,7 @@ public class MultiTaskBackPressureDemo {
                 })
                 .name("MySink");
 
-        env.execute(MultiTaskBackPressureDemo.class.getSimpleName());
+        env.execute(MultiTaskBackPressureWithNewSource.class.getSimpleName());
     }
 
     private static StreamExecutionEnvironment getEnv() {
