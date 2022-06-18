@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CompletableFutureDemo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("1" + Thread.currentThread().getName());
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -49,6 +49,16 @@ public class CompletableFutureDemo {
         voidCompletableFuture.join();
         executorService.shutdown();
 
+        // test for thenAccept
+        // thenAccept 中的 Consumer 会被调用 complete 的线程去执行。
+        CompletableFuture<Integer> future1 = new CompletableFuture<>();
+        new Thread(() -> future1.complete(1), "Thread aaa").start();
+        TimeUnit.MILLISECONDS.sleep(10);
+        future1.thenAccept(value -> System.out.println("6 value :" + value + "  ThreadName:" + Thread.currentThread().getName()));
+
+        CompletableFuture<Integer> future2 = new CompletableFuture<>();
+        future2.thenAccept(value -> System.out.println("7 value :" + value + "  ThreadName:" + Thread.currentThread().getName()));
+        new Thread(() -> future2.complete(2), "Thread bbb").start();
     }
 
 }

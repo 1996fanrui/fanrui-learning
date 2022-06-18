@@ -25,6 +25,7 @@ public class CompletableExceptionDemo {
 
         resultFuture.handleAsync((ignored, throwable) -> {
             if (throwable != null) {
+                // throwable : java.util.concurrent.CompletionException: java.io.IOException: xxxxxx_0000+
                 System.out.println("throwable : " + throwable);
             }
             return null;
@@ -40,6 +41,7 @@ public class CompletableExceptionDemo {
             Long aaa = future.get();
             System.out.println(aaa);
         } catch (Throwable e) {
+            // throwable 2 : java.util.concurrent.ExecutionException: java.io.IOException: completeExceptionally IOException 2.
             System.out.println("throwable 2 : " + e);
         }
     }
