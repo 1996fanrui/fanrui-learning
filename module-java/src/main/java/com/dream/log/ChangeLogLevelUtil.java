@@ -66,14 +66,14 @@ public class ChangeLogLevelUtil {
             //            <version>1.2.3</version>
             //        </dependency>
             logFrameworkType = LogFrameworkType.LOGBACK;
-            ch.qos.logback.classic.LoggerContext loggerContext = (ch.qos.logback.classic.LoggerContext) LoggerFactory.getILoggerFactory();
-            for (ch.qos.logback.classic.Logger logger : loggerContext.getLoggerList()) {
-                if (logger.getLevel() != null) {
-                    loggerMap.put(logger.getName(), logger);
-                }
-            }
-            ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            loggerMap.put(rootLogger.getName(), rootLogger);
+//            ch.qos.logback.classic.LoggerContext loggerContext = (ch.qos.logback.classic.LoggerContext) LoggerFactory.getILoggerFactory();
+//            for (ch.qos.logback.classic.Logger logger : loggerContext.getLoggerList()) {
+//                if (logger.getLevel() != null) {
+//                    loggerMap.put(logger.getName(), logger);
+//                }
+//            }
+//            ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+//            loggerMap.put(rootLogger.getName(), rootLogger);
         } else if (LogConstant.LOG4J2_LOGGER_FACTORY.equals(type)) {
             //        <dependency>
             //            <groupId>org.apache.logging.log4j</groupId>
@@ -112,9 +112,9 @@ public class ChangeLogLevelUtil {
                 org.apache.log4j.Level targetLevel = org.apache.log4j.Level.toLevel(loggerLevel);
                 targetLogger.setLevel(targetLevel);
             } else if (logFrameworkType == LogFrameworkType.LOGBACK) {
-                ch.qos.logback.classic.Logger targetLogger = (ch.qos.logback.classic.Logger) logger;
-                ch.qos.logback.classic.Level targetLevel = ch.qos.logback.classic.Level.toLevel(loggerLevel);
-                targetLogger.setLevel(targetLevel);
+//                ch.qos.logback.classic.Logger targetLogger = (ch.qos.logback.classic.Logger) logger;
+//                ch.qos.logback.classic.Level targetLevel = ch.qos.logback.classic.Level.toLevel(loggerLevel);
+//                targetLogger.setLevel(targetLevel);
             } else if (logFrameworkType == LogFrameworkType.LOG4J2) {
                 org.apache.logging.log4j.core.config.LoggerConfig loggerConfig = (org.apache.logging.log4j.core.config.LoggerConfig) logger;
                 org.apache.logging.log4j.Level targetLevel = org.apache.logging.log4j.Level.toLevel(loggerLevel);
