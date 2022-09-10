@@ -28,10 +28,10 @@ public class DataGenAndPrintSink {
                 "  WATERMARK FOR ts AS ts\n" +
                 ") WITH (\n" +
                 "   'connector' = 'datagen',\n" +
-                "   'rows-per-second'='10',\n" +
-                "   'fields.id.kind'='sequence',\n" +
-                "   'fields.id.start'='0',\n" +
-                "   'fields.id.end'='100',\n" +
+                "   'rows-per-second'='2',\n" +
+//                "   'fields.id.kind'='sequence',\n" +
+//                "   'fields.id.start'='0',\n" +
+//                "   'fields.id.end'='100',\n" +
                 "   'fields.app.min'='1',\n" +
                 "   'fields.app.max'='10',\n" +
                 "   'fields.channel.min'='21',\n" +
