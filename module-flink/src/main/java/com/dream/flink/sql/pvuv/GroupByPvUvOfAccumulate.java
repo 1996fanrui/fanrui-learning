@@ -22,7 +22,7 @@ public class GroupByPvUvOfAccumulate {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
             .filter(Objects::nonNull);

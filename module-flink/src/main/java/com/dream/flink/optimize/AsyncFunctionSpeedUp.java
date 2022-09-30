@@ -23,7 +23,7 @@ public class AsyncFunctionSpeedUp {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         env.setParallelism(1);
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         String sourceDDL = "CREATE TABLE orders (\n" +
                 "  id           INT,\n" +

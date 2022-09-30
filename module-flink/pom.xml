@@ -12,9 +12,9 @@
     <artifactId>module-flink</artifactId>
 
     <properties>
-        <flink.version>1.13.6</flink.version>
+        <flink.version>1.15.1</flink.version>
         <hive.version>2.3.5</hive.version>
-        <scala.binary.version>2.11</scala.binary.version>
+        <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.11.11</scala.version>
         <kafka.version>0.11</kafka.version>
     </properties>
@@ -49,7 +49,7 @@
                 <!-- just for flink local web UI-->
                 <dependency>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-runtime-web_${scala.binary.version}</artifactId>
+                    <artifactId>flink-runtime-web</artifactId>
                     <version>${flink.version}</version>
                 </dependency>
                 <dependency>
@@ -61,14 +61,14 @@
 
                 <dependency>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+                    <artifactId>flink-table-api-java-bridge</artifactId>
                     <version>${flink.version}</version>
                     <scope>compile</scope>
                 </dependency>
 
                 <dependency>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+                    <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
                     <version>${flink.version}</version>
                     <scope>compile</scope>
                 </dependency>
@@ -210,7 +210,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
+            <artifactId>flink-test-utils</artifactId>
             <version>${flink.version}</version>
             <exclusions>
                 <exclusion>
@@ -276,7 +276,7 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka_${scala.binary.version}</artifactId>
+            <artifactId>flink-connector-kafka</artifactId>
             <version>${flink.version}</version>
             <exclusions>
                 <exclusion>
@@ -288,21 +288,21 @@
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
+            <artifactId>flink-statebackend-rocksdb</artifactId>
             <version>${flink.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+            <artifactId>flink-table-api-java-bridge</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
         </dependency>

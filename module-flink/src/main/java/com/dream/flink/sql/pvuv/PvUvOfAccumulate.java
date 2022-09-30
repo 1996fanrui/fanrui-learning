@@ -21,7 +21,7 @@ public class PvUvOfAccumulate {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
             .filter(Objects::nonNull);

@@ -1,11 +1,8 @@
 package com.dream.flink.sql.datagen;
 
 import com.dream.flink.sql.FlinkSqlUtil;
-import com.dream.flink.sql.profile.sink.ComplexSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.types.Row;
 
 /**
  * @author fanrui03
@@ -17,7 +14,7 @@ public class DataGenAndPrintSink {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         env.setParallelism(1);
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         String sourceDDL = "CREATE TABLE orders (\n" +
                 "  id           INT,\n" +

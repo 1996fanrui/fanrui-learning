@@ -4,7 +4,7 @@ import com.dream.flink.io.input.FSDataBufferedInputStream;
 import org.apache.flink.core.fs.FSDataInputStream;
 import org.apache.flink.core.memory.DataInputViewStreamWrapper;
 import org.apache.flink.core.memory.DataOutputViewStreamWrapper;
-import org.apache.flink.runtime.state.CheckpointStreamFactory;
+import org.apache.flink.runtime.state.CheckpointStateOutputStream;
 import org.apache.flink.runtime.state.StreamStateHandle;
 import org.apache.flink.runtime.state.filesystem.FsCheckpointStreamFactory;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -40,7 +40,7 @@ public class InputBenchmark extends IOBenchmarkBase {
     void doSetup() throws IOException {
         initFile();
         // outputStream of checkpoint
-        CheckpointStreamFactory.CheckpointStateOutputStream outputStream =
+        CheckpointStateOutputStream outputStream =
                 new FsCheckpointStreamFactory.FsCheckpointStateOutputStream(
                         filePath, filePath.getFileSystem(), MB, MB);
 

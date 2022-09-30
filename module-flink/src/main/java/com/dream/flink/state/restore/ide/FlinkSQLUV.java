@@ -28,7 +28,6 @@ public class FlinkSQLUV {
 
         EnvironmentSettings mySetting = EnvironmentSettings
                 .newInstance()
-                .useBlinkPlanner()
                 .inStreamingMode()
                 .build();
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env, mySetting);

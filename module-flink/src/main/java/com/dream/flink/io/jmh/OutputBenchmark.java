@@ -1,7 +1,7 @@
 package com.dream.flink.io.jmh;
 
 import org.apache.flink.core.memory.DataOutputViewStreamWrapper;
-import org.apache.flink.runtime.state.CheckpointStreamFactory;
+import org.apache.flink.runtime.state.CheckpointStateOutputStream;
 import org.apache.flink.runtime.state.StreamStateHandle;
 import org.apache.flink.runtime.state.filesystem.FileBasedStateOutputStream;
 import org.apache.flink.runtime.state.filesystem.FsCheckpointStreamFactory;
@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 public class OutputBenchmark extends IOBenchmarkBase {
 
-    private CheckpointStreamFactory.CheckpointStateOutputStream outputStream;
+    private CheckpointStateOutputStream outputStream;
     private DataOutputViewStreamWrapper outView;
     private StreamStateHandle stateHandle;
 

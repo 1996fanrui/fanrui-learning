@@ -1,6 +1,6 @@
 package com.dream.flink.sql.hive;
 
-import com.dream.flink.sql.FlinkSQLUtils;
+import com.dream.flink.sql.FlinkSqlUtil;
 import com.dream.flink.util.file.FileReaderUtil;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +26,7 @@ public class FlinkSqlExecutor {
 
     public static void main(String[] args) {
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
-        StreamTableEnvironment tableEnv = FlinkSQLUtils.getTableEnv();
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv();
 
         String sqlStr = parameterTool.get(SQL_KEY);
         if (sqlStr == null) {
