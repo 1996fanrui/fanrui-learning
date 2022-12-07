@@ -14,10 +14,10 @@ object DemoProto extends _root_.scalapb.GeneratedFileObject {
       com.dream.flink.pb.demo.Person
     )
   private lazy val ProtoBytes: Array[Byte] =
-      scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
-  """CgpkZW1vLnByb3RvEhJjb20uZHJlYW0uZmxpbmsucGIaFXNjYWxhcGIvc2NhbGFwYi5wcm90byJDCgZQZXJzb24SHQoEbmFtZ
+    scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
+      """CgpkZW1vLnByb3RvEhJjb20uZHJlYW0uZmxpbmsucGIaFXNjYWxhcGIvc2NhbGFwYi5wcm90byJDCgZQZXJzb24SHQoEbmFtZ
   RgBIAEoCUIJ4j8GEgRuYW1lUgRuYW1lEhoKA2FnZRgCIAEoBUII4j8FEgNhZ2VSA2FnZWIGcHJvdG8z"""
-      ).mkString)
+    ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
     _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
