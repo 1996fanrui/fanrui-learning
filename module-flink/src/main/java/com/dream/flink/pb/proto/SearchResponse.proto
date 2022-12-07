@@ -1,0 +1,20 @@
+syntax = "proto2";
+
+package com.dream.flink.pb;
+
+// /Users/leo.fan/Downloads/protoc-21.10-osx-x86_64/bin/protoc --java_out=./src/main/java ./src/main/java/com/dream/flink/pb/proto/SearchResponse.proto
+
+option java_multiple_files = true;
+option java_package = "com.dream.flink.pb";
+option java_outer_classname = "SearchResponseProto";
+
+
+message Result {
+  required string url = 1;
+  required string title = 2;
+  repeated string snippets = 3;
+}
+
+message SearchResponse {
+  repeated Result results = 1;
+}
