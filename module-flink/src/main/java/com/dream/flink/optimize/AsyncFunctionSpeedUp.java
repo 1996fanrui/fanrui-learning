@@ -81,15 +81,19 @@ public class AsyncFunctionSpeedUp {
                         int id = row.getFieldAs(0);
                         return heavyOperation(Integer.toString(id));
                     }, executor)
-                    .thenAccept(result -> resultFuture.complete(Collections.singleton(result)))
-                    .exceptionally(throwable -> {
-                        // exceptionally 相当于 supplyAsync 的 catch
-                        // 如果想继续往外抛异常，可调用 completeExceptionally，
-                        // 如果不往外抛异常，可以调用 complete
+                    // 无论是否异常，whenCompleteAsync 一定会被调用。
+                    // 当 throwable 不为 null，表示没有异常，从 result 里拿结果即可
+                    // 当 throwable 为 null，表示有异常，则处理异常
+                    .whenCompleteAsync((result, throwable) -> {
+                        if (result != null) {
+                            resultFuture.complete(Collections.singleton(result));
+                        } else {
+                            // 如果想继续往外抛异常，可调用 completeExceptionally，
+                            // 如果不往外抛异常，可以调用 complete
 //                        resultFuture.completeExceptionally(throwable);
-                        resultFuture.complete(Collections.emptyList());
-                        return null;
-                    });
+                            resultFuture.complete(Collections.emptyList());
+                        }
+                    }, executor);
         }
 
         @Override
