@@ -1,6 +1,10 @@
 package com.dream.flink.process;
 
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.api.java.typeutils.RowTypeInfo;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
@@ -13,7 +17,12 @@ import org.apache.flink.util.Collector;
 public class OnTimerDemo {
 
     public static void main(String[] args) throws Exception {
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        Configuration conf = new Configuration();
+        conf.setString("state.checkpoint-storage", "filesystem");
+        conf.setString("state.checkpoints.dir", "file:///tmp/flinkjob");
+        conf.setString("execution.checkpointing.interval", "10s");
+        conf.setString("execution.savepoint.path", "file:///tmp/flinkjob/980ce11849d28ffc144fa6dac1d98083/chk-2");
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
 
         env.setParallelism(1);
 
@@ -44,6 +53,13 @@ public class OnTimerDemo {
         Table query = tableEnv.sqlQuery("select * from orders");
         DataStream<Row> rowDataStream = tableEnv.toAppendStream(query, Row.class);
 
+        TypeInformation<?>[] returnTypes = new TypeInformation[4];
+        returnTypes[0] = Types.INT;
+        returnTypes[1] = Types.INT;
+        returnTypes[2] = Types.LONG;
+        returnTypes[3] = Types.INT;
+
+
         rowDataStream.keyBy(new KeySelector<Row, String>() {
             @Override
             public String getKey(Row value) throws Exception {
@@ -55,26 +71,27 @@ public class OnTimerDemo {
 
             @Override
             public void processElement(Row value, Context ctx, Collector<Row> out) throws Exception {
-                out.collect(value);
+//                out.collect(value);
                 if (firstRow == null) {
                     firstRow = value;
                 }
-                ctx.timerService().registerProcessingTimeTimer(System.currentTimeMillis() + 6000);
+                ctx.timerService().registerProcessingTimeTimer(System.currentTimeMillis() + 3000);
             }
 
             @Override
             public void onTimer(long timestamp, OnTimerContext ctx, Collector<Row> out) throws Exception {
-                System.out.println(timestamp);
-                Row colRow = new Row(firstRow.getArity() + 2);
-                for (int i = 0; i < firstRow.getArity(); i++) {
-                    colRow.setField(i, firstRow.getField(i));
-                }
-                colRow.setField(firstRow.getArity(), 2);
-                colRow.setField(firstRow.getArity()+1, 2);
+                // TODO restore 时调用的 onTimer 会有 bug，异常时，任务不会退出。
+                Row colRow = new Row(4);
+                colRow.setField(0, 0);
+                colRow.setField(1, 1);
+                colRow.setField(2, 2);
+                colRow.setField(3, 3);
                 out.collect(colRow);
 //                throw new RuntimeException("xxxx");
             }
-        }).print();
+        })
+        .returns(new RowTypeInfo(returnTypes))
+        .print();
 
         env.execute(OnTimerDemo.class.getSimpleName());
     }
