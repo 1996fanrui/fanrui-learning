@@ -1,4 +1,4 @@
-package com.dream.flink.sql.profile;
+package com.dream.flink.uc;
 
 import com.dream.flink.sql.FlinkSqlUtil;
 import org.apache.flink.api.common.functions.FlatMapFunction;
