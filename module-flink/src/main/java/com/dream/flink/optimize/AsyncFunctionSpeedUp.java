@@ -82,8 +82,8 @@ public class AsyncFunctionSpeedUp {
                         return heavyOperation(Integer.toString(id));
                     }, executor)
                     // 无论是否异常，whenCompleteAsync 一定会被调用。
-                    // 当 throwable 不为 null，表示没有异常，从 result 里拿结果即可
-                    // 当 throwable 为 null，表示有异常，则处理异常
+                    // 当 throwable 为 null，表示没有异常，从 result 里拿结果即可
+                    // 当 throwable 不为 null，表示有异常，则处理异常
                     .whenCompleteAsync((result, throwable) -> {
                         if (result != null) {
                             resultFuture.complete(Collections.singleton(result));
