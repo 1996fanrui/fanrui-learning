@@ -104,6 +104,17 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc_2.11</artifactId>
+            <version>1.13.6</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.blink</groupId>-->
 <!--            <artifactId>flink-runtime_2.11</artifactId>-->
