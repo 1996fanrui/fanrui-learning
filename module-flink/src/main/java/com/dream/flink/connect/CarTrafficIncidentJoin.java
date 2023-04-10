@@ -52,7 +52,7 @@ public class CarTrafficIncidentJoin {
                 new CarLocationEvent(9, 4000L, 13, 104)
 //        ).assignTimestampsAndWatermarks(WatermarkStrategy.<CarLocationEvent>forMonotonousTimestamps()
         ).assignTimestampsAndWatermarks(WatermarkStrategy.<CarLocationEvent>forBoundedOutOfOrderness(Duration.ofMillis(10))
-                .withTimestampAssigner((ctx) -> (element, recordTimestamp) -> element.timestamp));
+                        .withTimestampAssigner((element, recordTimestamp) -> element.timestamp));
 
         DataStream<TrafficIncidentEvent> trafficIncidentStream = env.fromElements(
                 // 10 一直没动，id=0 应该是可信的

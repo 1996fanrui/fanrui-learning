@@ -83,13 +83,14 @@ public class JdbcLookupJoin {
                 "join city_info for system_time as of orders.ts as c\n" +
                 "on orders.city_id = c.city_id";
 
-        tableEnv.executeSql(sourceDDL);
-        tableEnv.executeSql(mysqlDDL);
-        tableEnv.executeSql(sinkDDL);
-
         System.out.println(sourceDDL);
         System.out.println(mysqlDDL);
         System.out.println(sinkDDL);
+        System.out.println(joinSQL);
+
+        tableEnv.executeSql(sourceDDL);
+        tableEnv.executeSql(mysqlDDL);
+        tableEnv.executeSql(sinkDDL);
         tableEnv.executeSql(joinSQL);
     }
 
