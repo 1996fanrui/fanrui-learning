@@ -31,7 +31,7 @@ public class JdbcLookupJoin {
         env.setParallelism(2);
         env.disableOperatorChaining();
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         String sourceDDL = "CREATE TABLE orders (\n" +
                 "  app          INT,\n" +

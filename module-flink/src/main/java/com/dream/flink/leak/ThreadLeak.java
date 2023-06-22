@@ -15,7 +15,7 @@ public class ThreadLeak {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         String sourceDDL = "CREATE TABLE orders (\n" +
                 "  app          INT,\n" +

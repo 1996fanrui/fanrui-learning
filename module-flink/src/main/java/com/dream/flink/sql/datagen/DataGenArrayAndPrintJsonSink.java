@@ -10,7 +10,7 @@ public class DataGenArrayAndPrintJsonSink {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         env.setParallelism(1);
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         String sourceDDL = "CREATE TABLE kafka_datagen (\n" +
                 "    a array<row<\n" +

@@ -20,7 +20,6 @@ public class SimpleQueryDemo {
     public static void main(String[] args) throws Exception {
         EnvironmentSettings mySetting = EnvironmentSettings
             .newInstance()
-            .useBlinkPlanner()
             .inStreamingMode()
             .build();
 

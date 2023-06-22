@@ -1,21 +1,11 @@
 package com.dream.flink.sql.datagen;
 
 import com.dream.flink.sql.FlinkSqlUtil;
-import com.dream.flink.sql.profile.sink.ComplexSink;
-import org.apache.flink.api.common.typeutils.TypeSerializer;
-import org.apache.flink.api.common.typeutils.base.ListSerializer;
-import org.apache.flink.api.common.typeutils.base.LongSerializer;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.annotation.DataTypeHint;
-import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.types.Row;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author fanrui
@@ -26,7 +16,7 @@ public class ListTypeConvertDemo {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         Item item = new Item();
         item.setItemId(10L);

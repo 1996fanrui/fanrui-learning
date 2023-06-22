@@ -28,7 +28,6 @@ public class OnTimerDemo {
 
         EnvironmentSettings envSetting = EnvironmentSettings
                 .newInstance()
-                .useBlinkPlanner()
                 .inStreamingMode()
                 .build();
 

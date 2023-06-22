@@ -18,7 +18,6 @@ public class UDFDemo {
 
         EnvironmentSettings mySetting = EnvironmentSettings
                 .newInstance()
-                .useBlinkPlanner()
                 .inStreamingMode()
                 .build();
 

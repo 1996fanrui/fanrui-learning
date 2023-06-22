@@ -48,7 +48,7 @@ public class MultiSinkDemo {
         env.setParallelism(1);
         CheckpointUtil.setConfYamlStateBackend(env);
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
                 .filter(Objects::nonNull);

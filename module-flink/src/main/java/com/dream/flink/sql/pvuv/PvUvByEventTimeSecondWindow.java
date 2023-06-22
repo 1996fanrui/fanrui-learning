@@ -27,7 +27,7 @@ public class PvUvByEventTimeSecondWindow {
         env.setParallelism(2);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-        StreamTableEnvironment tableEnv = FlinkSqlUtil.getBlinkTableEnv(env);
+        StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
                 .filter(Objects::nonNull)

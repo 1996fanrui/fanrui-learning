@@ -2,7 +2,7 @@ package com.dream.flink.func.sink;
 
 import com.dream.flink.sql.profile.BackPressureDemo;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.shaded.guava18.com.google.common.util.concurrent.RateLimiter;
+import org.apache.flink.shaded.guava30.com.google.common.util.concurrent.RateLimiter;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.flink.table.api.EnvironmentSettings;
@@ -19,7 +19,6 @@ public class RateLimitedSinkDemo {
 
         EnvironmentSettings envSetting = EnvironmentSettings
                 .newInstance()
-                .useBlinkPlanner()
                 .inStreamingMode()
                 .build();
 
