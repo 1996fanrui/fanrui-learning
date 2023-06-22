@@ -18,6 +18,8 @@ mvn -T 8 test -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -
 
 mvn -T 20 clean deploy -DskipTests -Ddocs-and-source -Dcheckstyle.skip=true
 
+mvn -T 20 spotless:apply
+
 # 跳过 apache License 检查
 -Drat.skip=true
 
