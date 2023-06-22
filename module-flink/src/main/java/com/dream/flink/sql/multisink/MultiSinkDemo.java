@@ -53,8 +53,7 @@ public class MultiSinkDemo {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
                 .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-                "ts, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
 
         tableEnv.executeSql(PRINT0_SINK_DDL);

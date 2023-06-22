@@ -42,8 +42,7 @@ public class PvUvByEventTimeSecondWindow {
 
         // 定义了 event_ts，即：event Time 列，列名不需要与 Order 字段名一致，
         // 只需要加 .rowtime 即可标识字段为 event Time 列
-        tableEnv.createTemporaryView("order_table", orderStream,
-                "event_ts.rowtime, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         // 分钟级窗口定义
         String querySql = "select count(*)\n" +

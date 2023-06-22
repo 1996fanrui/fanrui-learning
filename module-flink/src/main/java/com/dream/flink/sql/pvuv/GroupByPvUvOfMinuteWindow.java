@@ -26,8 +26,7 @@ public class GroupByPvUvOfMinuteWindow {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
             .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-            "proc_ts.proctime, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         String querySql = "select cityId" +
             "      ,FROM_UNIXTIME(CAST(TUMBLE_END(proc_ts, INTERVAL '1' MINUTE) AS BIGINT), 'yyyy-MM-dd HH:mm')\n" +

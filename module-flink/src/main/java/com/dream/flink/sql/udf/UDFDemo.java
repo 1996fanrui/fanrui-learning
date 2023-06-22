@@ -28,8 +28,7 @@ public class UDFDemo {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
                 .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-                "ts, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         tableEnv.registerFunction("hashCode", new HashCode());
 

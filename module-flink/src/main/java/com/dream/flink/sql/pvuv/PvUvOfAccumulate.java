@@ -26,8 +26,7 @@ public class PvUvOfAccumulate {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
             .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-            "time, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         String querySql = "select count(*)," +
             "       count(distinct userId)" +

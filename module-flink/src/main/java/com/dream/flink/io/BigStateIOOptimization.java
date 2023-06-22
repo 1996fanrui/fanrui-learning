@@ -37,8 +37,7 @@ public class BigStateIOOptimization {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
                 .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-                "ts, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         Table query = tableEnv.sqlQuery("select count(distinct userId) from order_table");
 

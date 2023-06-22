@@ -29,8 +29,7 @@ public class PvUvByMinuteWindow {
             .filter(Objects::nonNull);
 
         // 定义了 proc_ts，process Time 列
-        tableEnv.createTemporaryView("order_table", orderStream,
-            "proc_ts.proctime, orderId, userId, goodsId, price, cityId"); // ts.rowtime
+        tableEnv.createTemporaryView("order_table", orderStream); // ts.rowtime
 
         // 分钟级窗口定义
         String querySql = "select count(*)\n" +

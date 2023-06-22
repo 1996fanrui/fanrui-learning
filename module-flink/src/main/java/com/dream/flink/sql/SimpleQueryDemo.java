@@ -31,8 +31,7 @@ public class SimpleQueryDemo {
         DataStream<Order> orderStream = env.addSource(new OrderGenerator())
             .filter(Objects::nonNull);
 
-        tableEnv.createTemporaryView("order_table", orderStream,
-            "ts, orderId, userId, goodsId, price, cityId");
+        tableEnv.createTemporaryView("order_table", orderStream);
 
         Table query = tableEnv.sqlQuery("select *, md5(userId), concat_ws('~', userId, orderId) from order_table");
 
