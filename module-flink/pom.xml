@@ -17,6 +17,8 @@
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.16</scala.version>
         <kafka.version>0.11</kafka.version>
+        <paimon.version>0.5-SNAPSHOT</paimon.version>
+        <flink-shade-hadoop.version>2.7.5-10.0</flink-shade-hadoop.version>
     </properties>
 
     <profiles>
@@ -103,6 +105,16 @@
                     <artifactId>protobuf-java</artifactId>
                     <version>2.6.1</version>
                     <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.paimon</groupId>
+                    <artifactId>paimon-flink-1.17</artifactId>
+                    <version>${paimon.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-hadoop-2</artifactId>
+                    <version>${flink-shade-hadoop.version}</version>
                 </dependency>
             </dependencies>
         </profile>
