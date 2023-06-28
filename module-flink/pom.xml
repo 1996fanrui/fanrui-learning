@@ -13,6 +13,7 @@
 
     <properties>
         <flink.version>1.17.1</flink.version>
+        <flink.main.version>1.17</flink.main.version>
         <hive.version>2.3.5</hive.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.16</scala.version>
@@ -131,6 +132,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.29</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.paimon</groupId>
+            <artifactId>paimon-flink-${flink.main.version}</artifactId>
+            <version>${paimon.version}</version>
         </dependency>
 
 <!--        <dependency>-->

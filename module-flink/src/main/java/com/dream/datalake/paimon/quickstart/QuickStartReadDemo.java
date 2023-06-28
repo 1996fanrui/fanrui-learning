@@ -1,4 +1,4 @@
-package com.dream.flink.paimon.quickstart;
+package com.dream.datalake.paimon.quickstart;
 
 import com.dream.flink.sql.FlinkSqlUtil;
 import org.apache.flink.configuration.Configuration;
