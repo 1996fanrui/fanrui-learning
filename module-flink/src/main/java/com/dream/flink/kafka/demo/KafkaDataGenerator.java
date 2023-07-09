@@ -1,10 +1,15 @@
-package com.dream.flink.kafka;
+package com.dream.flink.kafka.demo;
 
 import com.dream.flink.sql.FlinkSqlUtil;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
-public class KafkaConsumer {
+/**
+ * kafka-topics --create --topic quickstart-events --bootstrap-server localhost:9092
+ * kafka-topics --bootstrap-server localhost:9092 --alter --topic quickstart-events --partitions 2
+ * kafka-topics --bootstrap-server localhost:9092 --describe --topic quickstart-events
+ */
+public class KafkaDataGenerator {
 
     public static void main(String[] args) {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -12,13 +17,19 @@ public class KafkaConsumer {
 
         StreamTableEnvironment tableEnv = FlinkSqlUtil.getTableEnv(env);
 
-        String printDDL = "CREATE TABLE print_table (\n" +
+        String sourceDDL = "CREATE TABLE orders (\n" +
                 "  app          INT,\n" +
                 "  city_id      INT,\n" +
                 "  user_id      STRING,\n" +
-                "  ts TIMESTAMP(3)\n" +
+                "  ts AS PROCTIME()\n" +
                 ") WITH (\n" +
-                "   'connector' = 'print'\n" +
+                "   'connector' = 'datagen',\n" +
+                "   'rows-per-second'='10',\n" +
+                "   'fields.app.min'='100',\n" +
+                "   'fields.app.max'='200',\n" +
+                "   'fields.city_id.min'='1',\n" +
+                "   'fields.city_id.max'='10',\n" +
+                "   'fields.user_id.length'='10'\n" +
                 ")";
 
         String kafkaDDL = "create table kafka_orders\n" +
@@ -33,20 +44,18 @@ public class KafkaConsumer {
                 "    'connector' = 'kafka',\n" +
                 "    'topic' = 'quickstart-events',\n" +
                 "    'properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "    'properties.group.id' = 'test',\n" +
-                "    'scan.startup.mode' = 'latest-offset',\n" +
-                "    'format' = 'json'" +
+                "    'format' = 'json'\n" +
                 ")";
 
-        String insertSQL = "insert into print_table\n" +
+        String insertSQL = "insert into kafka_orders\n" +
                 "select  *\n" +
-                "from kafka_orders";
+                "from orders";
 
-        System.out.println(printDDL);
+        System.out.println(sourceDDL);
         System.out.println(kafkaDDL);
         System.out.println(insertSQL);
 
-        tableEnv.executeSql(printDDL);
+        tableEnv.executeSql(sourceDDL);
         tableEnv.executeSql(kafkaDDL);
         tableEnv.executeSql(insertSQL);
     }
