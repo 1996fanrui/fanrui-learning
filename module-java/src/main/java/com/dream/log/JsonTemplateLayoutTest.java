@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * refer:
  * https://logging.apache.org/log4j/2.x/manual/json-template-layout.html
  * https://logging.apache.org/log4j/2.x/manual/lookups.html
+ * https://logging.apache.org/log4j/2.x/manual/filters.html
  *
  * <dependency>
  *     <groupId>org.apache.logging.log4j</groupId>
@@ -29,7 +30,7 @@ public class JsonTemplateLayoutTest {
 
         for (int i = 0; i < 10; i++) {
             LOG.info("Test for json layout, {}", i);
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
     }
 }
