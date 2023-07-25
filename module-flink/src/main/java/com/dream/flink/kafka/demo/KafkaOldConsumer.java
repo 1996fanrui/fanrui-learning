@@ -1,17 +1,17 @@
 package com.dream.flink.kafka.demo;
 
-import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.connector.kafka.source.KafkaSource;
-import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.formats.json.JsonDeserializationSchema;
 import org.apache.flink.shaded.guava30.com.google.common.util.concurrent.RateLimiter;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class KafkaConsumer {
+public class KafkaOldConsumer {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
@@ -22,15 +22,14 @@ public class KafkaConsumer {
         env.setParallelism(2);
         env.enableCheckpointing(TimeUnit.SECONDS.toMillis(10));
 
-        env.fromSource(KafkaSource.<SamplePojo>builder()
-                        .setBootstrapServers("localhost:9092")
-                        .setTopics("quickstart-events")
-                        .setGroupId("test")
-                        .setStartingOffsets(OffsetsInitializer.latest())
-                        .setValueOnlyDeserializer(new JsonDeserializationSchema<>(SamplePojo.class))
-                        .build(),
-                WatermarkStrategy.noWatermarks(),
-                "FAST_SOURCE_NAME")
+        Properties consumerProps = new Properties();
+        consumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        consumerProps.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "test");
+        env.addSource(
+                new FlinkKafkaConsumer<>("quickstart-events",
+                        new JsonDeserializationSchema<>(SamplePojo.class),
+                        consumerProps)
+                        .setStartFromLatest())
                 .rebalance()
                 .map(new LimitedMap<>(10))
                 .rebalance()
@@ -38,8 +37,6 @@ public class KafkaConsumer {
 
         env.execute();
     }
-
-
 
     static class LimitedMap<T> extends RichMapFunction<T, T> {
         private final double permitsPerSecond;
