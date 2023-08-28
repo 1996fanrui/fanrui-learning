@@ -33,7 +33,7 @@ public class FailoverDelayDemo {
 
         env.fromSource(generatorSource, WatermarkStrategy.noWatermarks(), "Data Generator")
                 .map((MapFunction<Long, Long>) value -> value).name("Map___1")
-                .rebalance()
+//                .rebalance()
                 .addSink(new MySink<>())
                 .name("MySink");
 
@@ -43,8 +43,15 @@ public class FailoverDelayDemo {
     public static class MySink<T> extends RichSinkFunction<T> {
 
         @Override
+        public void open(Configuration parameters) throws Exception {
+            System.out.println("open     subtaskIndex  " + getRuntimeContext().getIndexOfThisSubtask()
+                    + "            timestamp " + System.currentTimeMillis());
+        }
+
+        @Override
         public void invoke(T value, Context context) {
-            throw new RuntimeException("skhvkfsjihfjwhfknvs");
+            throw new RuntimeException("skhvkfsjihfjwhfknvs     subtaskIndex  " + getRuntimeContext().getIndexOfThisSubtask()
+            + "            timestamp " + System.currentTimeMillis());
         }
     }
 
