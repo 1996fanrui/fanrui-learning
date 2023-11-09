@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Test for ignore System.out and redirect System.out to LOG.
@@ -31,6 +32,7 @@ public class SystemOutRedirectToLog {
 
     private static void sysout() {
         System.out.println("aa1bb");
+        System.out.println("jsfkjskjl " + System.lineSeparator() + "fjskdfsvnmx");
         System.out.print(1);
         System.out.print('c');
         System.out.println("aa2bb");
@@ -48,7 +50,18 @@ public class SystemOutRedirectToLog {
         private static final byte[] LINE_SEPARATOR_BYTES = System.lineSeparator().getBytes();
         private static final int LINE_SEPARATOR_LENGTH = LINE_SEPARATOR_BYTES.length;
 
-        boolean isLineEnded() {
+        public synchronized Optional<String> tryGenerateContext() {
+            if (!isLineEnded()) {
+                return Optional.empty();
+            }
+            try {
+                return Optional.of(new String(buf, 0, count - LINE_SEPARATOR_LENGTH));
+            } finally {
+                reset();
+            }
+        }
+
+        private synchronized boolean isLineEnded() {
             if (count < LINE_SEPARATOR_LENGTH) {
                 return false;
             }
@@ -60,10 +73,6 @@ public class SystemOutRedirectToLog {
             byte[] bytes = new byte[LINE_SEPARATOR_LENGTH];
             System.arraycopy(buf, count - LINE_SEPARATOR_LENGTH, bytes, 0, LINE_SEPARATOR_LENGTH);
             return Arrays.equals(LINE_SEPARATOR_BYTES, bytes);
-        }
-
-        String generateContext() {
-            return new String(buf, 0, count - LINE_SEPARATOR_LENGTH);
         }
     }
 
@@ -84,21 +93,17 @@ public class SystemOutRedirectToLog {
 
         public void write(int b) {
             super.write(b);
-            if (helper.isLineEnded()) {
-                try {
-                    logger.info(helper.generateContext());
-                } finally {
-                    helper.reset();
-                }
-            }
+            tryLogCurrentLine();
         }
 
         public void write(byte[] b, int off, int len) {
-            if (len < 0) {
-                throw new ArrayIndexOutOfBoundsException(len);
-            }
-            for (int i = 0; i < len; i++) {
-                write(b[off + i]);
+            super.write(b, off, len);
+            tryLogCurrentLine();
+        }
+
+        private void tryLogCurrentLine() {
+            synchronized (this) {
+                helper.tryGenerateContext().ifPresent(logger::info);
             }
         }
     }
