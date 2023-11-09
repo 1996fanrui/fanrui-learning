@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -70,9 +69,13 @@ public class SystemOutRedirectToLog {
                 return LINE_SEPARATOR_BYTES[0] == buf[count - 1];
             }
 
-            byte[] bytes = new byte[LINE_SEPARATOR_LENGTH];
-            System.arraycopy(buf, count - LINE_SEPARATOR_LENGTH, bytes, 0, LINE_SEPARATOR_LENGTH);
-            return Arrays.equals(LINE_SEPARATOR_BYTES, bytes);
+            for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+                if (LINE_SEPARATOR_BYTES[i] == buf[count - LINE_SEPARATOR_LENGTH + i]) {
+                    continue;
+                }
+                return false;
+            }
+            return true;
         }
     }
 
