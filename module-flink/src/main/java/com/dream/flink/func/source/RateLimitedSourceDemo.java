@@ -1,7 +1,7 @@
 package com.dream.flink.func.source;
 
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.shaded.guava30.com.google.common.util.concurrent.RateLimiter;
+import org.apache.flink.shaded.guava31.com.google.common.util.concurrent.RateLimiter;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;

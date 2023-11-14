@@ -12,13 +12,14 @@
     <artifactId>module-flink</artifactId>
 
     <properties>
-        <flink.version>1.17.1</flink.version>
-        <flink.main.version>1.17</flink.main.version>
+        <flink.version>1.18.0</flink.version>
+        <paimon-flink.main.version>1.17</paimon-flink.main.version>
+        <flink-kafka-connector.version>3.0.1-1.18</flink-kafka-connector.version>
         <hive.version>2.3.5</hive.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.16</scala.version>
         <kafka.version>0.11</kafka.version>
-        <paimon.version>0.5-SNAPSHOT</paimon.version>
+        <paimon.version>0.5.0-incubating</paimon.version>
         <flink-shade-hadoop.version>2.7.5-10.0</flink-shade-hadoop.version>
     </properties>
 
@@ -109,7 +110,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.apache.paimon</groupId>
-                    <artifactId>paimon-flink-1.17</artifactId>
+                    <artifactId>paimon-flink-${paimon-flink.main.version}</artifactId>
                     <version>${paimon.version}</version>
                 </dependency>
                 <dependency>
@@ -179,7 +180,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.paimon</groupId>
-            <artifactId>paimon-flink-${flink.main.version}</artifactId>
+            <artifactId>paimon-flink-${paimon-flink.main.version}</artifactId>
             <version>${paimon.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -419,7 +420,7 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink-kafka-connector.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>

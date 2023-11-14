@@ -9,6 +9,7 @@ import org.apache.flink.runtime.state.*;
 import org.apache.flink.runtime.state.filesystem.FileStateHandle;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,14 +66,13 @@ public class MetadataSerializer {
             // 因此仅处理 IncrementalRemoteKeyedStateHandle
             if(keyedStateHandle instanceof IncrementalRemoteKeyedStateHandle) {
                 // 获取 RocksDB 的 sharedState
-                Map<StateHandleID, StreamStateHandle> sharedState =
+                List<IncrementalKeyedStateHandle.HandleAndLocalPath> sharedState =
                         ((IncrementalRemoteKeyedStateHandle) keyedStateHandle).getSharedState();
                 // 遍历 sharedState 中所有的 sst 文件，key 为 sst 文件名，value 为对应的 hdfs 文件 Handle
-                for(Map.Entry<StateHandleID, StreamStateHandle> entry: sharedState.entrySet()){
+                for(IncrementalKeyedStateHandle.HandleAndLocalPath handle: sharedState){
                     // 打印 sst 文件名
-                    System.out.println("sstable 文件名：" + entry.getKey());
-                    if(entry.getValue() instanceof FileStateHandle) {
-                        Path filePath = ((FileStateHandle) entry.getValue()).getFilePath();
+                    if(handle.getHandle() instanceof FileStateHandle) {
+                        Path filePath = ((FileStateHandle) handle.getHandle()).getFilePath();
                         // 打印 sst 文件对应的 hdfs 文件位置
                         System.out.println("sstable 文件对应的 hdfs 位置：" + filePath.getPath());
                     }
