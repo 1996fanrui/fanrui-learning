@@ -16,6 +16,8 @@ public class SystemOutRedirectToLog {
     private static final Logger LOG = LoggerFactory.getLogger(SystemOutRedirectToLog.class);
 
     public static void main(String[] args) {
+        PrintStream out = System.out;
+
         // Normal
         sysout();
 
@@ -26,6 +28,10 @@ public class SystemOutRedirectToLog {
 
         // Redirect all System.out to LOG.
         System.setOut(new LoggingPrintStream(LOG));
+        sysout();
+
+        // Resume to Normal (For test, we need to resume it to avoid break any other tests)
+        System.setOut(out);
         sysout();
     }
 
