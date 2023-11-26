@@ -6,6 +6,10 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 /*
 
+mysql -h 127.0.0.1 -u root -p
+
+create database flink_test_job;
+
 use flink_test_job;
 create table if not exists `city_info` (
   `city_id` int not null,
