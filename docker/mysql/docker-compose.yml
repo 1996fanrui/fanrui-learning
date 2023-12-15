@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: test-mysql
+    container_name: test-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - cache:/var/lib/mysql
+volumes:
+  cache:
+    driver: local
+# mysql -u root -p
