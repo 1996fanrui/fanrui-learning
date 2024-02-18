@@ -26,8 +26,6 @@ public class KafkaAlignmentDemo {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        conf.setString("state.checkpoints.dir", "file:///tmp/flinkjob");
-//        conf.setString("execution.savepoint.path", "file:///tmp/flinkjob/8cd55f071073f34531856eb4420a5cd1/chk-24");
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         env.setParallelism(2);
@@ -37,22 +35,22 @@ public class KafkaAlignmentDemo {
                         .setBootstrapServers("localhost:9092")
                         .setTopics("slow-topic")
                         .setGroupId("test")
-                        .setStartingOffsets(OffsetsInitializer.latest())
+                        .setStartingOffsets(OffsetsInitializer.earliest())
                         .setValueOnlyDeserializer(new JsonDeserializationSchema<>(SamplePojo.class))
                         .build(),
                 WatermarkStrategy.forGenerator(ctx -> new PunctuatedGenerator())
                         .withWatermarkAlignment(
                                 "group-1",
                                 MAX_DRIFT,
-                                UPDATE_INTERVAL)
+                                UPDATE_INTERVAL) // .withIdleness(Duration.ofSeconds(5)) // enable or disable idleness
                         .withTimestampAssigner((r, t) -> r.getTs()),
-                SLOW_SOURCE_NAME).print();
+                SLOW_SOURCE_NAME).setParallelism(1).print().setParallelism(1);
 
         env.fromSource(KafkaSource.<SamplePojo>builder()
                         .setBootstrapServers("localhost:9092")
                         .setTopics("fast-topic")
                         .setGroupId("test")
-                        .setStartingOffsets(OffsetsInitializer.latest())
+                        .setStartingOffsets(OffsetsInitializer.earliest())
                         .setValueOnlyDeserializer(new JsonDeserializationSchema<>(SamplePojo.class))
                         .build(),
                 WatermarkStrategy.forGenerator(ctx -> new PunctuatedGenerator())
@@ -61,7 +59,7 @@ public class KafkaAlignmentDemo {
                                 MAX_DRIFT,
                                 UPDATE_INTERVAL)
                         .withTimestampAssigner((r, t) -> r.getTs()),
-                FAST_SOURCE_NAME).addSink(new MySink<>());
+                FAST_SOURCE_NAME).print();
 
         env.execute();
     }
@@ -75,35 +73,6 @@ public class KafkaAlignmentDemo {
 
         @Override
         public void onPeriodicEmit(WatermarkOutput output) {
-        }
-    }
-
-    public static class MySink<T> extends RichSinkFunction<T> implements CheckpointedFunction {
-
-        private static final long DEFAULT_CHECKPOINT_ID = -1;
-
-        private long firstCheckpointId = DEFAULT_CHECKPOINT_ID;
-
-        @Override
-        public void invoke(T value, Context context) throws Exception {
-            System.out.println(value);
-        }
-
-        @Override
-        public void snapshotState(FunctionSnapshotContext context) {
-            long currentCheckpointId = context.getCheckpointId();
-            if (firstCheckpointId == DEFAULT_CHECKPOINT_ID) {
-                firstCheckpointId = currentCheckpointId;
-            }
-            if (getRuntimeContext().getIndexOfThisSubtask() == 0) {
-                if (currentCheckpointId > firstCheckpointId + 6) {
-                    throw new RuntimeException("jsodfkjsklfklj");
-                }
-            }
-        }
-
-        @Override
-        public void initializeState(FunctionInitializationContext context) {
         }
     }
 

@@ -6,12 +6,12 @@ import org.apache.flink.table.api.bridge.java.StreamStatementSet;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 /**
- * kafka-topics --create --topic slow-topic --bootstrap-server localhost:9092 --partitions 2
+ * kafka-topics --create --topic slow-topic --bootstrap-server localhost:9092 --partitions 1
  * kafka-topics --bootstrap-server localhost:9092 --describe --topic slow-topic
  * kafka-console-consumer --bootstrap-server localhost:9092 --topic slow-topic --from-beginning
  * kafka-topics --delete --topic slow-topic --bootstrap-server localhost:9092
  *
- * kafka-topics --create --topic fast-topic --bootstrap-server localhost:9092 --partitions 2
+ * kafka-topics --create --topic fast-topic --bootstrap-server localhost:9092 --partitions 4
  * kafka-topics --bootstrap-server localhost:9092 --describe --topic fast-topic
  * kafka-console-consumer --bootstrap-server localhost:9092 --topic fast-topic --from-beginning
  * kafka-topics --delete --topic fast-topic --bootstrap-server localhost:9092
@@ -93,7 +93,7 @@ public class KafkaDataGenerator {
 
         StreamStatementSet statementSet = tableEnv.createStatementSet();
         statementSet.addInsertSql(insertFastSQL);
-        statementSet.addInsertSql(insertSlowSQL);
+//        statementSet.addInsertSql(insertSlowSQL);
         statementSet.execute();
     }
 }
