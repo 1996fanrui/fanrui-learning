@@ -7,6 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Shanghai
     ports:
       - "3306:3306"
     volumes:
