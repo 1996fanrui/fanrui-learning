@@ -15,7 +15,7 @@
         <flink.version>1.15.1</flink.version>
         <hive.version>2.3.5</hive.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <scala.version>2.11.11</scala.version>
+        <scala.version>2.12.16</scala.version>
         <kafka.version>0.11</kafka.version>
     </properties>
 
