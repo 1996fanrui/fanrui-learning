@@ -4,6 +4,7 @@ import com.dream.flink.func.map.RateLimiterSleepMapFunction;
 import com.dream.flink.kafka.demo.KafkaDataGenerator;
 import com.dream.flink.kafka.demo.SamplePojo;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
@@ -20,13 +21,13 @@ public class AdaptiveSchedulerDemoWithKafka {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        conf.setString("taskmanager.numberOfTaskSlots", "100");
+        conf.setString("taskmanager.numberOfTaskSlots", "500");
         conf.setString("rest.flamegraph.enabled", "true");
 
         // Enable the adaptive scheduler and autoscaler.
         conf.setString("jobmanager.scheduler", "adaptive");
         conf.setString("job.autoscaler.enabled", "true");
-        conf.setString("job.autoscaler.scaling.enabled", "false");
+        conf.setString("job.autoscaler.scaling.enabled", "true");
         conf.setString("job.autoscaler.stabilization.interval", "30 s");
         conf.setString("job.autoscaler.metrics.window", "1 m");
         conf.setString("job.autoscaler.scale-up.grace-period", "1 m");
@@ -53,6 +54,12 @@ public class AdaptiveSchedulerDemoWithKafka {
                 "My_Source")
                 .map(v -> v)
                 .rebalance()
+//                .keyBy(new KeySelector<SamplePojo, Long>() {
+//                    @Override
+//                    public Long getKey(SamplePojo value) throws Exception {
+//                        return 0L;
+//                    }
+//                })
                 .map(new RateLimiterSleepMapFunction<>(1000))
                 .name("RateLimiterMapFunction")
                 .rebalance()
