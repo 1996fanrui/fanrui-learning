@@ -7,14 +7,16 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import java.util.concurrent.TimeUnit;
 
 /**
- * kafka-topics --create --topic quickstart-events --bootstrap-server localhost:9092
- * kafka-topics --bootstrap-server localhost:9092 --alter --topic quickstart-events --partitions 5
- * kafka-topics --bootstrap-server localhost:9092 --describe --topic quickstart-events
+ * kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+ * kafka-topics.sh --bootstrap-server localhost:9092 --alter --topic quickstart-events --partitions 5
+ * kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic quickstart-events
  * kafka-topics --bootstrap-server localhost:9092 --delete --topic quickstart-events
  *
  * 获取 topic 中各个 partition 最新的 offset:
- * kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic quickstart-events --time -1
- * kafka-consumer-groups --bootstrap-server localhost:9092 --group test --describe
+ * kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic quickstart-events --time -1
+ * kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group test --describe
+ *
+ * kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic quickstart-events --from-beginning
  *
  */
 public class KafkaDataGenerator {
