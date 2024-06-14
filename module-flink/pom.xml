@@ -57,6 +57,12 @@
                     <version>${flink.version}</version>
                     <scope>compile</scope>
                 </dependency>
+
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-metrics-slf4j</artifactId>
+                    <version>${flink.version}</version>
+                </dependency>
                 <!-- just for flink local web UI-->
                 <dependency>
                     <groupId>org.apache.flink</groupId>
