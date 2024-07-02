@@ -2,6 +2,9 @@ package com.dream.tree.unionfind.Island;
 
 import java.util.Arrays;
 
+/**
+ * 200: https://leetcode.cn/problems/number-of-islands/
+ */
 public class InfectColorBFS {
 
     public static int numIslands(char[][] grid) {
