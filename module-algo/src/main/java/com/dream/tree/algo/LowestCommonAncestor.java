@@ -36,6 +36,47 @@ public class LowestCommonAncestor {
         return (leftRes + rightRes + curRes > 0);
     }
 
+    // 方案 2
+    private static final ResultType NOT_EXIST_RESULT = new ResultType(null, 0);
+
+    public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
+        return findNode(root, p, q).result;
+    }
+
+    private ResultType findNode(TreeNode cur, TreeNode p, TreeNode q) {
+        if (cur == null) {
+            return NOT_EXIST_RESULT;
+        }
+
+        ResultType leftResult = findNode(cur.left, p, q);
+        if(leftResult.result != null) {
+            return leftResult;
+        }
+        ResultType rightResult = findNode(cur.right, p, q);
+        if(rightResult.result != null) {
+            return rightResult;
+        }
+        int count = 0;
+        if(cur.val == p.val || cur.val == q.val) {
+            count++;
+        }
+        count += leftResult.count;
+        count += rightResult.count;
+
+        return count == 2 ? new ResultType(cur, 2) : new ResultType(null, count);
+    }
+
+    private static class ResultType {
+        final TreeNode result;
+        // how many p or q are found from current node or its children.
+        final int count;
+
+        ResultType(TreeNode result, int count) {
+            this.result = result;
+            this.count = count;
+        }
+    }
+
 
     public static class TreeNode {
         int val;
