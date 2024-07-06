@@ -5,7 +5,7 @@ package com.dream.base.linkedlist;
  * @author fanrui
  * @time 2020-03-20 01:09:15
  * 查找链表的倒数第 k 个节点
- * LeetCode 22：https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
+ * 剑指 Offer 22：https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
  */
 public class FindLastKthNode {
 
