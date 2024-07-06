@@ -16,11 +16,12 @@ public class JosephusProblem {
         }
     }
 
-    // 一圈一圈的杀节点，一个循环杀一个节点
+    // 一圈一圈的杀节点，循环 m 次杀一个节点
     public static Node josephusKill1(Node head, int m) {
         if (head == null || head.next == head || m < 1) {
             return head;
         }
+        // last 永远指向 head 的上一个节点
         Node last = head;
         while (last.next != head) {
             last = last.next;
@@ -28,11 +29,16 @@ public class JosephusProblem {
         int count = 0;
         while (head != last) {
             if (++count == m) {
+                // 要杀节点了，也就是链表中要剔除节点了。
+                // 当前的 head 要被剔除了，也就是 last 的 next 直接指向 head 的 next。
+                // 本次循环，last 保持不变，head 往后跳了一个。
                 last.next = head.next;
                 count = 0;
             } else {
+                // 正常情况，不杀节点，所以 last 往后跳一个
                 last = last.next;
             }
+            // head 永远是 last 的 next
             head = last.next;
         }
         return head;
