@@ -77,6 +77,32 @@ public class LongestIncreasingSubSequence {
         return left;
     }
 
+    // 简化找 index 的流程
+    public int lengthOfLIS1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int[] increaseArr = new int[nums.length];
+        int lengthIndex = 0;
+        increaseArr[0] = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            final int curNum = nums[i];
+            if(curNum > increaseArr[lengthIndex]) {
+                increaseArr[++lengthIndex] = curNum;
+            } else {
+                for (int j = 0; j <= lengthIndex; j++) {
+                    // 顺序遍历，找到第一个 >= curNum 的元素即可
+                    if(curNum <= increaseArr[j]) {
+                        increaseArr[j] = curNum;
+                        break;
+                    }
+                }
+            }
+        }
+        return lengthIndex + 1;
+    }
+
     public static void main(String[] args) {
         new LongestIncreasingSubSequence().lengthOfLIS(new int[]{1,2,3,3,3,100,4,5,6});
     }
