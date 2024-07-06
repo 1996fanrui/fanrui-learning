@@ -22,4 +22,19 @@ public class MoveZeroes {
         }
     }
 
+    public void moveZeroes1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int slow = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                nums[slow++] = nums[i];
+            }
+        }
+        for (; slow < nums.length; slow++) {
+            nums[slow] = 0;
+        }
+    }
+
 }
