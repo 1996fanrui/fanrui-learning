@@ -21,7 +21,7 @@ public class KeyedStateDeduplication {
 
         env.addSource(new IntegerRandomSource(10))
                 .keyBy(record -> record)
-                .filter(new DeduplicationFilter())
+                .filter(new DeduplicationFilter<>())
                 .print();
 
         env.execute("KeyedStateDeduplication");
@@ -53,7 +53,7 @@ public class KeyedStateDeduplication {
         }
     }
 
-    public static class DeduplicationFilter extends RichFilterFunction<Integer> {
+    public static class DeduplicationFilter<T> extends RichFilterFunction<T> {
         // 使用该 ValueState 来标识当前 Key 是否之前存在过
         private ValueState<Boolean> isExist;
 
@@ -77,7 +77,7 @@ public class KeyedStateDeduplication {
         }
 
         @Override
-        public boolean filter(Integer value) throws Exception {
+        public boolean filter(T value) throws Exception {
             // 当前 key 第一次出现时，isExist.value() 会返回 null
             // key 第一次出现，说明当前 key 在之前没有被处理过，则不应该过滤
             if (null == isExist.value()) {
