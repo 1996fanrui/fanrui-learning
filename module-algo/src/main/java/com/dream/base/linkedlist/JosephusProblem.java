@@ -70,6 +70,16 @@ public class JosephusProblem {
         return (getLive(i - 1, m) + m - 1) % i + 1;
     }
 
+    // leet code 上只给了 n
+    // LeetCode ：https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/
+    public int lastRemaining(int n, int m) {
+        if(n == 1){
+            return 0;
+        }
+        int x = lastRemaining(n-1, m);
+        return (m + x) % n;
+    }
+
     public static void printCircularList(Node head) {
         if (head == null) {
             return;
