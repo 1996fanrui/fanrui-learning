@@ -5,28 +5,13 @@ use jiff::{Timestamp, tz, Zoned};
 
 fn jiff_zoned_time_zone_benchmark(c: &mut Criterion) {
 
-    c.bench_function("Zoned::now()", |b| b.iter(|| {
-        Zoned::now();
-    }));
-
     c.bench_function("Zoned::now() with time zone.", |b| b.iter(|| {
-        let zone = Some(TimeZone::fixed(tz::offset(-8)));
-        match zone.clone() {
-            Some(tz) => Zoned::now().with_time_zone(tz),
-            None => Zoned::now(),
-        };
+        Zoned::now().with_time_zone(TimeZone::fixed(tz::offset(-8)));
     }));
 
 
     c.bench_function("Zoned::new with time zone.", |b| b.iter(|| {
-        let zone = Some(TimeZone::fixed(tz::offset(-8)));
-        match zone.clone() {
-            Some(tz) => {
-                let timestamp = Timestamp::try_from(SystemTime::now()).unwrap();
-                Zoned::new(timestamp, tz)
-            },
-            None => Zoned::now(),
-        };
+        Zoned::new(Timestamp::now(), TimeZone::fixed(tz::offset(-8)));
     }));
 }
 
