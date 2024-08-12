@@ -4,3 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+jiff = "0.1.5"
+
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "jiff_benchmark"
+harness = false
