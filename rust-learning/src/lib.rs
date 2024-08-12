@@ -2,6 +2,8 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+pub mod static_lazy;
+
 #[cfg(test)]
 mod tests {
     use super::*;
