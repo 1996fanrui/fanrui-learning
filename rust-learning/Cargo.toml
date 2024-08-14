@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 jiff = "0.1.5"
 lazy_static = "1.5.0"
+fastant = "0.1"
 
 
 [dev-dependencies]
@@ -13,6 +14,10 @@ criterion = "0.5.1"
 
 [[bench]]
 name = "jiff_benchmark"
+harness = false
+
+[[bench]]
+name = "fastant_benchmark"
 harness = false
 
 [[bench]]
