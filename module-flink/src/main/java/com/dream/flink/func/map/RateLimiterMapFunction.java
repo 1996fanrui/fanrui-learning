@@ -33,7 +33,7 @@ public class RateLimiterMapFunction<T> extends RichMapFunction<T, T> {
     public static void main(String[] args) {
         int recordsPerSecond = 100000;
         RateLimiterMapFunction<Object> rateLimiterMap = new RateLimiterMapFunction<>(recordsPerSecond);
-        rateLimiterMap.open(null);
+        rateLimiterMap.open(new Configuration());
 
         long startTime = System.currentTimeMillis();
         for (int i = 1; i < recordsPerSecond * 20; i++) {

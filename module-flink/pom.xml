@@ -12,7 +12,7 @@
     <artifactId>module-flink</artifactId>
 
     <properties>
-        <flink.version>1.18.0</flink.version>
+        <flink.version>1.20.0</flink.version>
         <paimon-flink.main.version>1.17</paimon-flink.main.version>
         <flink-kafka-connector.version>3.0.1-1.18</flink-kafka-connector.version>
         <hive.version>2.3.5</hive.version>
@@ -130,6 +130,12 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-hadoop-2</artifactId>
                     <version>${flink-shade-hadoop.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <artifactId>commons-io</artifactId>
+                            <groupId>commons-io</groupId>
+                        </exclusion>
+                    </exclusions>
                 </dependency>
 
                 <!--   log related    -->
@@ -347,6 +353,14 @@
                 <exclusion>
                     <artifactId>protobuf-java</artifactId>
                     <groupId>com.google.protobuf</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-compress</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

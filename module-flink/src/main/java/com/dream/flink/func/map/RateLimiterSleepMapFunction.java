@@ -45,7 +45,7 @@ public class RateLimiterSleepMapFunction<T> extends RichMapFunction<T, T> {
     public static void main(String[] args) throws InterruptedException {
         int recordsPerSecond = 10000;
         RateLimiterSleepMapFunction<Object> rateLimiterMap = new RateLimiterSleepMapFunction<>(recordsPerSecond);
-        rateLimiterMap.open(null);
+        rateLimiterMap.open(new Configuration());
 
         long startTime = System.currentTimeMillis();
         for (int i = 1; i < recordsPerSecond * 20; i++) {
