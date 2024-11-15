@@ -8,15 +8,33 @@ package com.dream.base.array;
  */
 public class NetherlandsFlag {
 
+    /**
+     * less : All data to the left of less (with less) are less than num.
+     * l : the current data (all data are num between less and l (without less and l))
+     * more : All data to the right of more (with more) are greater than num.
+     */
     public static int[] partition(int[] arr, int l, int r, int num) {
         int less = l - 1;
         int more = r + 1;
         while (l < more) {
             if (arr[l] < num) {
+                //   num = 2
+                //  less           l                more
+                //   1   2  2  2  -1   x   x   x     5
+                //     less            l             more
+                //   1  -1  2  2   2   x   x   x     5
                 swap(arr, ++less, l++);
             } else if (arr[l] > num) {
+                //   num = 2
+                //  less           l                more
+                //   1   2  2  2   4   x   x   x     5
+                //       less      l          more
+                //   1  -1  2  2   x   x   x   4     5
                 swap(arr, --more, l);
             } else {
+                //   num = 2
+                //  less           l                more
+                //   1   2  2  2   2   x   x   x     5
                 l++;
             }
         }
