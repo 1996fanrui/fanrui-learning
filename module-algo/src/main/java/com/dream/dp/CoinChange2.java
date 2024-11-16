@@ -28,10 +28,13 @@ public class CoinChange2 {
 
 
         for (int i = 1; i < coins.length; i++) {
+            dp[i][0] = 1;
             for (int j = 0; j <= amount; j++) {
                 if (j >= coins[i]) {
                     // 上一层位置，加上本层位置
                     dp[i][j] = dp[i-1][j] + dp[i][j-coins[i]];
+                } else {
+                    dp[i][j] = dp[i-1][j];
                 }
             }
         }
