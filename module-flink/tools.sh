@@ -9,6 +9,7 @@ mvn -T 8 clean install -DskipTests
 mvn -T 8 clean install -DskipTests -Dcheckstyle.skip=true
 mvn -T 8 clean package -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
 mvn -T 20 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true
+mvn -T 20 clean install -DskipTests -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true -Denforcer.skip=true -P java17-target
 mvn -T 8 clean install -DskipTests -Dhadoop.version=2.7.6 -Dmaven.javadoc.skip=true -Drat.skip=true -Dcheckstyle.skip=true
 -Dlog4j.configuration=file:/Users/leo.fan/code/github/fanrui-learning/module-flink/src/main/resources/logback.xml
 # 运行模块内的所有单测
