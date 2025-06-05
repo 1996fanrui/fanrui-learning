@@ -51,11 +51,12 @@ public class AsyncFunctionWithUC {
 
         AsyncDataStream.orderedWait(
                         source,
+//                        source.rebalance(),
                         new MyAsyncFunction(), 2, TimeUnit.SECONDS, 1000)
 //                source
-                .flatMap(new AmplificationAndSleep())
+                .flatMap(new AmplificationAndSleep(50, true))
                 .rebalance()
-                .flatMap(new AmplificationAndSleep(10, false))
+                .flatMap(new AmplificationAndSleep(2, false))
                 .sinkTo(new DiscardingSink<>());
 
         env.execute(AsyncFunctionWithUC.class.getSimpleName());
