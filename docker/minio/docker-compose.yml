@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  minio:
+    # 使用官方最新的 MinIO 镜像
+    image: minio/minio:latest
+    container_name: my-local-minio
+
+    # MinIO 服务的启动命令
+    # 'server /data' 是指将容器内的 /data 目录作为存储根目录
+    # '--console-address ":9001"' 指定 Web UI 的访问端口
+    command: server /data --console-address ":9001"
+
+    # 端口映射 (格式: <主机端口>:<容器端口>)
+    ports:
+      # API 端口，S3 客户端连接这个端口
+      - "9000:9000"
+      # Web UI (MinIO Console) 端口，浏览器访问这个端口
+      - "9001:9001"
+
+    # 数据卷映射，实现数据持久化
+    # 将主机当前目录下的 data 文件夹映射到容器内的 /data 目录
+    volumes:
+      - ./data:/data
+
+    # 环境变量，用于配置 MinIO 的登录凭证
+    environment:
+      # 这是登录 Web UI 和 API 的根用户名
+      MINIO_ROOT_USER: test
+      # 这是对应的密码。!!! 请务必修改为一个强密码 !!!
+      MINIO_ROOT_PASSWORD: 12345678
+
+    # 设置容器在 Docker 服务启动时自动重启
+    restart: always
