@@ -3,7 +3,6 @@ version: '3.8'
 services:
   postgres:
     image: postgres:13.13
-    hostname: pgsql
     container_name: pgsql
     restart: always
     environment:
