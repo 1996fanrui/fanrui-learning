@@ -12,7 +12,7 @@
 ## 数据持久化说明
 
 ### 保留的现有数据
-- ✅ **PostgreSQL**: 使用现有的 `pgsql_postgres_data` 卷，包含 `nocobase_db` 等 74 张表
+- ✅ **PostgreSQL**: 使用现有的 `pgsql_postgres_data` 卷
 - ✅ **n8n**: 使用现有的 `./n8n_data` 目录，保留所有工作流和配置
 
 ### 新建的数据
@@ -36,13 +36,6 @@ docker-compose -f docker-compose-full.yml restart
 docker-compose -f docker-compose-full.yml ps
 ```
 
-### 单独管理 PostgreSQL（可选）
-```bash
-# 如果只需要 PostgreSQL，使用 pgsql 目录下的配置
-cd ../pgsql
-docker-compose up -d
-```
-
 ## 服务访问信息
 
 ### Web 界面
@@ -52,11 +45,23 @@ docker-compose up -d
 | NocoDB | http://localhost:8080 | 数据库可视化管理 |
 | MinIO Console | http://localhost:9001 | 对象存储管理界面 |
 
+```
+python3 main.py --name n8n --port 5678 \
+--name minio.api --port 9000 \
+--name minio --port 9001 \
+--name nocodb --port 8080
+
+http://n8n.local:5678
+http://minio.api.local:9000
+http://minio.local:9001
+http://nocodb.local:8080
+```
+
 ### 数据库连接
 - **PostgreSQL**: `localhost:5432`
   - 用户名: `root`
   - 密码: `123456`
-  - 主要数据库: `nocobase_db` (74张表), `nocodb_db` (NocoDB元数据)
+  - 主要数据库: `nocodb_db` (NocoDB元数据)
 
 ### API 端点
 - **MinIO S3 API**: `localhost:9000`
@@ -67,14 +72,13 @@ docker-compose up -d
 所有服务都位于同一个 `app_network` 网络中，可以通过服务名相互通信：
 
 - n8n 连接 PostgreSQL: `postgres:5432`
-- NocoDB 连接 PostgreSQL: `host.docker.internal:5432` (宿主机模式)
+- NocoDB 连接 PostgreSQL: `postgres:5432` (宿主机模式)
 - n8n 连接 MinIO: `minio:9000`
 
 ## 配置详情
 
 ### n8n 配置
 - 时区: `Asia/Shanghai`
-- 数据库: PostgreSQL (`nocobase_db`)
 - 数据持久化: `./n8n_data`
 
 ### NocoDB 配置
@@ -133,7 +137,7 @@ docker exec n8n wget -q -O - postgres:5432 || echo "Connection failed"
 ### 定期备份命令
 ```bash
 # 备份 PostgreSQL 数据
-docker exec pgsql pg_dump -U root nocobase_db > backup.sql
+docker exec pgsql pg_dump -U root nocodb_db > backup.sql
 
 # 备份 n8n 数据
 tar -czf n8n_backup.tar.gz n8n_data/
