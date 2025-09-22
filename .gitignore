@@ -3,6 +3,7 @@ docker/n8n/n8n_data
 docker/minio/data
 docker/pgsql/nocobase
 docker/n8n/minio_data
+tmp/
 
 .idea/
 *.iml
