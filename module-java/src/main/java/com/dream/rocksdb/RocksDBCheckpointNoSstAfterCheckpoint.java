@@ -63,6 +63,9 @@ public class RocksDBCheckpointNoSstAfterCheckpoint {
 
         // 3. Restore from rocksdb checkpoint dir
         columnFamilyHandles = new ArrayList<>(1);
+
+        // Highlight: Disable auto compaction for recovered rocksdb to prevent sst is deleted.
+        badCaseColumnFamilyOptions.setDisableAutoCompactions(true);
         RocksDB recoveredDB = openDB(chkDir, badCaseColumnFamilyOptions, columnFamilyHandles);
         sstCount = Objects.requireNonNull(Path.of(chkDir).toFile()
                 .listFiles((file, name) -> name.toLowerCase().endsWith(".sst"))).length;
@@ -71,7 +74,7 @@ public class RocksDBCheckpointNoSstAfterCheckpoint {
 
         TimeUnit.SECONDS.sleep(1);
         // 4. sstCountInDBPath after insert some deletion markers
-        sstCount = Objects.requireNonNull(Path.of(dbPath).toFile()
+        sstCount = Objects.requireNonNull(Path.of(chkDir).toFile()
                 .listFiles((file, name) -> name.toLowerCase().endsWith(".sst"))).length;
         System.out.println("sstCount in new DBPath after 1 seconds: " + sstCount);
 
